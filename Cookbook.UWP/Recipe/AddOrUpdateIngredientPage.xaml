@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="Cookbook.UWP.Recipe.AddOrUpdateIngredientPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Cookbook.UWP.Recipe"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <CommandBar Grid.Row="0">
+            <AppBarButton Name="xSave" Icon="Save" Label="Enregistrer" Click="xSave_Click"/>
+            <AppBarButton Name="xUndo" Icon="Undo" Label="Annuler" Click="xUndo_Click"/>
+        </CommandBar>
+
+        <Grid Grid.Row="1" Margin="0 10 0 0" Name="xGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Nom :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="xNameTextBlock" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Cookbook.Service.Recipe.MeasureService" CodeBehind="MeasureService.svc.cs" %>

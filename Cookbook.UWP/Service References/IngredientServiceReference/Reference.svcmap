@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a6cc4f2b-61da-4c6b-b347-8707a5faf9d3" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:58204/Recipe/IngredientService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="IngredientService.xsd" MetadataType="Schema" ID="f1ab84d2-75a6-4f09-9784-234b26b4bc91" SourceId="1" SourceUrl="http://localhost:58204/Recipe/IngredientService.svc?xsd=xsd2" />
+    <MetadataFile FileName="IngredientService.disco" MetadataType="Disco" ID="95a9bfc7-e3dc-4a02-8449-f31f668550f4" SourceId="1" SourceUrl="http://localhost:58204/Recipe/IngredientService.svc?disco" />
+    <MetadataFile FileName="IngredientService1.xsd" MetadataType="Schema" ID="867b0b80-5303-42cc-aa76-aae2b0c7ece3" SourceId="1" SourceUrl="http://localhost:58204/Recipe/IngredientService.svc?xsd=xsd1" />
+    <MetadataFile FileName="IngredientService.wsdl" MetadataType="Wsdl" ID="07bf0541-9149-4b26-a0d5-dec037a32b61" SourceId="1" SourceUrl="http://localhost:58204/Recipe/IngredientService.svc?wsdl" />
+    <MetadataFile FileName="IngredientService2.xsd" MetadataType="Schema" ID="bd3b5f6d-7e61-4a49-b034-ad612333e80b" SourceId="1" SourceUrl="http://localhost:58204/Recipe/IngredientService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

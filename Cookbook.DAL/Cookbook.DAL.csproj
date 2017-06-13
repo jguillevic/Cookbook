@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{08B21127-F0C1-49F0-93CC-A7EC7C5FC53A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cookbook.DAL</RootNamespace>
+    <AssemblyName>Cookbook.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\DatabaseInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recipe\IngredientDAL.cs" />
+    <Compile Include="Recipe\MeasureDAL.cs" />
+    <Compile Include="Recipe\RecipeCostDAL.cs" />
+    <Compile Include="Recipe\RecipeDAL.cs" />
+    <Compile Include="Recipe\RecipeDifficultyDAL.cs" />
+    <Compile Include="Recipe\RecipeFeatureDAL.cs" />
+    <Compile Include="Recipe\RecipeIngredientDAL.cs" />
+    <Compile Include="Recipe\RecipeInstructionDAL.cs" />
+    <Compile Include="Recipe\RecipeRecipeKindDAL.cs" />
+    <Compile Include="Recipe\RecipeSeasonDAL.cs" />
+    <Compile Include="Recipe\RecipeTableDescriptions.cs" />
+    <Compile Include="Database\SqlConnectionProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cookbook.Entity\Cookbook.Entity.csproj">
+      <Project>{cfd09845-ceed-4d75-9427-ba76a914a38b}</Project>
+      <Name>Cookbook.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.DAL\Tools.DAL.csproj">
+      <Project>{4B895F95-3D52-499B-98AF-1F75BB8C962E}</Project>
+      <Name>Tools.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.Helper\Tools.Helper.csproj">
+      <Project>{7D9CC9C9-C209-4C1E-92B1-D0560D8DC326}</Project>
+      <Name>Tools.Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CreateDB.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

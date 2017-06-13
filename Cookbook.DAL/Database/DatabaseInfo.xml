@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DatabaseInfo>
+  <DefautConnectionString>Data Source=DESKTOP-9HSO3TR\\SQL2014;Initial Catalog=Cookbook;Integrated Security=True</DefautConnectionString>
+</DatabaseInfo>

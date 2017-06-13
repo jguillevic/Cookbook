@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B895F95-3D52-499B-98AF-1F75BB8C962E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tools.DAL</RootNamespace>
+    <AssemblyName>Tools.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\DataRecordHelper.cs" />
+    <Compile Include="Database\DbDAL.cs" />
+    <Compile Include="Database\IDbConnectionProvider.cs" />
+    <Compile Include="Database\ParameterHelper.cs" />
+    <Compile Include="Database\DbCommandHelper.cs" />
+    <Compile Include="Database\TransactionScopeHelper.cs" />
+    <Compile Include="QueryBuilder\Clause\ClauseHelper.cs" />
+    <Compile Include="QueryBuilder\Clause\Comment\CommentClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Delete\DeleteClause.cs" />
+    <Compile Include="QueryBuilder\Clause\EndQuery\EndQueryClause.cs" />
+    <Compile Include="QueryBuilder\Clause\From\FromClause.cs" />
+    <Compile Include="QueryBuilder\Clause\From\JoinClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Insert\InsertClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Insert\InsertFieldClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Insert\InsertValuesClause.cs" />
+    <Compile Include="QueryBuilder\Clause\OrderBy\OrderByClause.cs" />
+    <Compile Include="QueryBuilder\Clause\OrderBy\OrderByElementClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Select\QueriedFieldClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Select\SelectClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Select\TopClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Update\SetClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Update\UpdateClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Where\SearchConditionClause.cs" />
+    <Compile Include="QueryBuilder\Clause\Where\WhereClause.cs" />
+    <Compile Include="QueryBuilder\DeleteQueryBuilder.cs" />
+    <Compile Include="QueryBuilder\Enum\Comparison.cs" />
+    <Compile Include="QueryBuilder\Enum\JoinType.cs" />
+    <Compile Include="QueryBuilder\Enum\LogicOperator.cs" />
+    <Compile Include="QueryBuilder\Enum\QueryBuilderEnumHelper.cs" />
+    <Compile Include="QueryBuilder\Enum\Sorting.cs" />
+    <Compile Include="QueryBuilder\Enum\TopUnit.cs" />
+    <Compile Include="QueryBuilder\InsertQueryBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilder\QueryBuilder.cs" />
+    <Compile Include="QueryBuilder\ReadQueryBuilder.cs" />
+    <Compile Include="QueryBuilder\SelectQueryBuilder.cs" />
+    <Compile Include="QueryBuilder\UpdateQueryBuilder.cs" />
+    <Compile Include="QueryBuilder\WriteQueryBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
