@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Cookbook.Entity.Recipe
 {
-    [Flags]
-    public enum Difficulty
+    [DataContract]
+    public class Difficulty
     {
-        None = 0,
-        VeryEasy = 1,
-        Easy = 2,
-        Medium = 4,
-        Difficult = 8,
-        VeryDifficult = 16
+        [DataMember]
+        public Guid Id { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public string Code { get; set; }
     }
 }

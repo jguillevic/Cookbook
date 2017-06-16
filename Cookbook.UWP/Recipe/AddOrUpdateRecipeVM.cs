@@ -1,9 +1,10 @@
-﻿using Cookbook.UWP.Common;
-using Cookbook.UWP.RecipeServiceReference;
+﻿using Cookbook.UWP.RecipeServiceReference;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Tools.UI.ViewModel;
 
 namespace Cookbook.UWP.Recipe
 {
@@ -79,175 +80,51 @@ namespace Cookbook.UWP.Recipe
             }
         }
 
-        private Season _season;
-        public Season Season
+        private Guid _costId;
+        public Guid CostId
         {
-            get { return _season; }
+            get { return _costId; }
             set
             {
-                if (_season != value)
+                if (_costId != value)
                 {
-                    _season = value;
-                    OnPropertyChanged("IsWinter");
-                    OnPropertyChanged("IsSpring");
-                    OnPropertyChanged("IsSummer");
-                    OnPropertyChanged("IsAutumn");
-                }
-            }
-        }
-        
-        public bool IsWinter
-        {
-            get { return Season.HasFlag(Season.Winter); }
-            set
-            {
-                if (value)
-                {
-                    Season |= Season.Winter;
-                }
-                else
-                {
-                    Season ^= Season.Winter;
+                    _costId = value;
+                    OnPropertyChanged("CostId");
                 }
             }
         }
 
-        public bool IsSpring
+        private Guid _difficultyId;
+        public Guid DifficultyId
         {
-            get { return Season.HasFlag(Season.Spring); }
+            get { return _difficultyId; }
             set
             {
-                if (value)
+                if (_difficultyId != value)
                 {
-                    Season |= Season.Spring;
-                }
-                else
-                {
-                    Season ^= Season.Spring;
+                    _difficultyId = value;
+                    OnPropertyChanged("DifficultyId");
                 }
             }
         }
 
-        public bool IsSummer
+        private Guid _recipeKindId;
+        public Guid RecipeKindId
         {
-            get { return Season.HasFlag(Season.Summer); }
+            get { return _recipeKindId; }
             set
             {
-                if (value)
+                if (_recipeKindId != value)
                 {
-                    Season |= Season.Summer;
-                }
-                else
-                {
-                    Season ^= Season.Summer;
+                    _recipeKindId = value;
+                    OnPropertyChanged("RecipeKindId");
                 }
             }
         }
 
-        public bool IsAutumn
-        {
-            get { return Season.HasFlag(Season.Autumn); }
-            set
-            {
-                if (value)
-                {
-                    Season |= Season.Autumn;
-                }
-                else
-                {
-                    Season ^= Season.Autumn;
-                }
-            }
-        }
+        public ObservableCollection<Guid> FeatureIds { get; set; }
 
-        private Feature _feature;
-        public Feature Feature
-        {
-            get { return _feature; }
-            set
-            {
-                if (_feature != value)
-                {
-                    _feature = value;
-                    OnPropertyChanged("IsVegetarian");
-                    OnPropertyChanged("IsFestive");
-                }
-            }
-        }
-
-        public bool IsVegetarian
-        {
-            get { return Feature.HasFlag(Feature.Vegetarian); }
-            set
-            {
-                if (value)
-                {
-                    Feature |= Feature.Vegetarian;
-                }
-                else
-                {
-                    Feature ^= Feature.Vegetarian;
-                }
-            }
-        }
-
-        public bool IsFestive
-        {
-            get { return Feature.HasFlag(Feature.Festive); }
-            set
-            {
-                if (value)
-                {
-                    Feature |= Feature.Festive;
-                }
-                else
-                {
-                    Feature ^= Feature.Festive;
-                }
-            }
-        }
-
-        private VisualCost _cost;
-        public VisualCost Cost
-        {
-            get { return _cost; }
-            set
-            {
-                if (_cost != value)
-                {
-                    _cost = value;
-                    OnPropertyChanged("Cost");
-                }
-            }
-        }
-
-        private VisualDifficulty _difficulty;
-        public VisualDifficulty Difficulty
-        {
-            get { return _difficulty; }
-            set
-            {
-                if (_difficulty != value)
-                {
-                    _difficulty = value;
-                    OnPropertyChanged("Difficulty");
-                }
-            }
-        }
-
-        private VisualRecipeKind _recipeKind;
-        public VisualRecipeKind RecipeKind
-        {
-            get { return _recipeKind; }
-            set
-            {
-                if (_recipeKind != value)
-                {
-                    _recipeKind = value;
-                    OnPropertyChanged("RecipeKind");
-                }
-            }
-        }
+        public ObservableCollection<Guid> SeasonIds { get; set; }
 
         public ObservableCollection<RecipeInstruction> Instructions { get; set; }
 
@@ -257,33 +134,23 @@ namespace Cookbook.UWP.Recipe
 
         public int IngredientCurrentOrder { get; set; }
 
-        public ObservableCollection<VisualCost> Costs { get; set; }
-
-        public ObservableCollection<VisualDifficulty> Difficulties { get; set; }
-
-        public ObservableCollection<VisualRecipeKind> RecipeKinds { get; set; }
-
         public AddOrUpdateRecipeVM(RecipeServiceReference.Recipe recipe)
         {
-            Costs = new ObservableCollection<VisualCost>(CostDataProvider.Costs);
-            Difficulties = new ObservableCollection<VisualDifficulty>(DifficultyDataProvider.Difficulties);
-            RecipeKinds = new ObservableCollection<VisualRecipeKind>(RecipeKindDataProvider.RecipeKinds);
-
             Id = recipe.Id;
             Name = recipe.Name;
             Description = recipe.Description;
-            Cost = CostDataProvider.GetVisualCost(recipe.Cost);
-            Difficulty = DifficultyDataProvider.GetVisualDifficulty(recipe.Difficulty);
-            RecipeKind = RecipeKindDataProvider.GetVisualRecipeKind(recipe.RecipeKind);
-            Season = recipe.Season;
-            Feature = Feature;
+            CostId = recipe.CostId;
+            DifficultyId = recipe.DifficultyId;
+            RecipeKindId = recipe.RecipeKindId;
+            SeasonIds = new ObservableCollection<Guid>(recipe.SeasonIds);
+            FeatureIds = new ObservableCollection<Guid>(recipe.FeatureIds);
             PreparationTime = recipe.PreparationTime;
             CookingTime = recipe.CookingTime;
 
             Instructions = new ObservableCollection<RecipeInstruction>(recipe.Instructions);
             if (recipe.Instructions.Count > 0)
             {
-                InstructionCurrentOrder = recipe.Instructions.Max(item => item.Order);
+                InstructionCurrentOrder = recipe.Instructions.Max(item => item.Order) + 1;
             }
             else
             {
@@ -293,7 +160,7 @@ namespace Cookbook.UWP.Recipe
             Ingredients = new ObservableCollection<RecipeIngredient>(recipe.Ingredients);
             if (recipe.Ingredients.Count > 0)
             {
-                IngredientCurrentOrder = recipe.Ingredients.Max(item => item.Order);
+                IngredientCurrentOrder = recipe.Ingredients.Max(item => item.Order) + 1;
             }
             else
             {
@@ -307,16 +174,25 @@ namespace Cookbook.UWP.Recipe
                 Id = Id
                 , Name = Name
                 , Description = Description
-                , Cost = Cost.Cost
-                , Difficulty = Difficulty.Difficulty
-                , RecipeKind = RecipeKind.RecipeKind
+                , CostId = CostId
+                , DifficultyId = DifficultyId
+                , RecipeKindId = RecipeKindId
                 , CookingTime = CookingTime
                 , PreparationTime = PreparationTime
-                , Feature = Feature
-                , Season = Season
+                , FeatureIds = new List<Guid>(FeatureIds)
+                , SeasonIds = new List<Guid>(SeasonIds)
                 , Instructions = new List<RecipeInstruction>(Instructions)
                 , Ingredients = new List<RecipeIngredient>(Ingredients)
             };
+        }
+
+        public async Task Populate()
+        {
+            await CostDataProvider.Populate();
+            await DifficultyDataProvider.Populate();
+            await RecipeKindDataProvider.Populate();
+            await FeatureDataProvider.Populate();
+            await SeasonDataProvider.Populate();
         }
     }
 }

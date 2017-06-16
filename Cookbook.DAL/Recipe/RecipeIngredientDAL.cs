@@ -38,7 +38,7 @@ namespace Cookbook.DAL.Recipe
             recipeIngredient.IngredientId = dataRecord.GetGuid(RecipeIngredientTableDescription.IngredientId);
             recipeIngredient.MeasureId = dataRecord.GetGuid(RecipeIngredientTableDescription.MeasureId);
             recipeIngredient.Order = dataRecord.GetInt32(RecipeIngredientTableDescription.Order);
-            recipeIngredient.Amount = dataRecord.GetInt32(RecipeIngredientTableDescription.Amount);
+            recipeIngredient.Amount = dataRecord.GetDecimal(RecipeIngredientTableDescription.Amount);
 
             return recipeIngredient;
         }

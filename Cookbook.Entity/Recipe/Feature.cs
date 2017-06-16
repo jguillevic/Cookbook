@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Cookbook.Entity.Recipe
 {
-    [Flags]
-    public enum Feature
+    [DataContract]
+    public class Feature
     {
-        None = 0,
-        Vegetarian = 1,
-        Festive = 2,
+        [DataMember]
+        public Guid Id { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public string Code { get; set; }
     }
 }

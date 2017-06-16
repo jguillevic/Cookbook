@@ -91,9 +91,14 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Recipe\CostService.svc" />
+    <Content Include="Recipe\DifficultyService.svc" />
+    <Content Include="Recipe\FeatureService.svc" />
     <Content Include="Recipe\IngredientService.svc" />
     <Content Include="Recipe\MeasureService.svc" />
+    <Content Include="Recipe\RecipeKindService.svc" />
     <Content Include="Recipe\RecipeService.svc" />
+    <Content Include="Recipe\SeasonService.svc" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Web.config">
@@ -102,17 +107,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Recipe\IIngredientService.cs" />
-    <Compile Include="Recipe\IMeasureService.cs" />
+    <Compile Include="Recipe\CostService.svc.cs">
+      <DependentUpon>CostService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Recipe\DifficultyService.svc.cs">
+      <DependentUpon>DifficultyService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Recipe\FeatureService.svc.cs">
+      <DependentUpon>FeatureService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Recipe\IngredientService.svc.cs">
       <DependentUpon>IngredientService.svc</DependentUpon>
     </Compile>
-    <Compile Include="Recipe\IRecipeService.cs" />
     <Compile Include="Recipe\MeasureService.svc.cs">
       <DependentUpon>MeasureService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Recipe\RecipeKindService.svc.cs">
+      <DependentUpon>RecipeKindService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Recipe\RecipeService.svc.cs">
       <DependentUpon>RecipeService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Recipe\SeasonService.svc.cs">
+      <DependentUpon>SeasonService.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +153,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cookbook.Contract\Cookbook.Contract.csproj">
+      <Project>{4a08db73-5eaf-4eda-80af-8efd46dc2372}</Project>
+      <Name>Cookbook.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cookbook.DAL\Cookbook.DAL.csproj">
       <Project>{08B21127-F0C1-49F0-93CC-A7EC7C5FC53A}</Project>
       <Name>Cookbook.DAL</Name>

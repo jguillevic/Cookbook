@@ -1,8 +1,10 @@
 ﻿using Cookbook.DAL.Recipe;
 using System.Collections.Generic;
+using Cookbook.Contract.Recipe;
 
 namespace Cookbook.Service.Recipe
 {
+    
     using Entity.Recipe;
 
     // REMARQUE : vous pouvez utiliser la commande Renommer du menu Refactoriser pour changer le nom de classe "RecipeService" à la fois dans le code, le fichier svc et le fichier de configuration.

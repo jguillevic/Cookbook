@@ -1,11 +1,7 @@
-﻿using Cookbook.DAL.Recipe;
+﻿using Cookbook.Contract.Recipe;
+using Cookbook.DAL.Recipe;
 using Cookbook.Entity.Recipe;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 
 namespace Cookbook.Service.Recipe
 {

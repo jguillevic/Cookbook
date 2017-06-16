@@ -151,7 +151,7 @@ namespace Tools.DAL.QueryBuilder.Clause.From
             else
                 _columnNames = null;
 
-            if (_values != null)
+            if (values != null)
                 _values = new List<List<object>>(values);
             else
                 _values = null;
@@ -221,9 +221,9 @@ namespace Tools.DAL.QueryBuilder.Clause.From
                     }
 
                     _parameterNames.Add(new List<string>());
-                    _parameterNames[i].Add(string.Format(CultureInfo.CurrentCulture, "{0}{1}", ParameterHelper.CreateParameterName(_columnNames[j]), i));
+                    _parameterNames[i].Add(string.Format(CultureInfo.CurrentCulture, "{0}{1}", _columnNames[j], i));
 
-                    sb.Append(_parameterNames[i][j]);
+                    sb.Append(ParameterHelper.CreateParameterName(_parameterNames[i][j]));
                 }
 
                 sb.Append(")");
@@ -270,7 +270,7 @@ namespace Tools.DAL.QueryBuilder.Clause.From
                         , _fromColumnNames[i]
                         , QueryBuilderEnumHelper.GetComparison(_comparison)
                         , _toAliasName ?? _toTableName
-                        , _toColumnNames[i]));
+                        , (_toColumnNames ?? _fromColumnNames)[i]));
             }
         }
 

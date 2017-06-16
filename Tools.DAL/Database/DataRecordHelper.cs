@@ -91,6 +91,21 @@ namespace Tools.DAL.Database
         /// </summary>
         /// <param name="dataRecord">Lecteur d'enregistrements.</param>
         /// <param name="columnName">Nom de la colonne.</param>
+        /// <returns>Valeur de la colonne sous la forme d'un <see cref="decimal"/>.</returns>
+        public static decimal GetDecimal(this IDataRecord dataRecord, string columnName)
+        {
+            int ordinal = dataRecord.GetOrdinal(columnName);
+
+            decimal value = dataRecord.GetDecimal(ordinal);
+
+            return value;
+        }
+
+        /// <summary>
+        /// Obtient la valeur de la colonne à partir de son nom.
+        /// </summary>
+        /// <param name="dataRecord">Lecteur d'enregistrements.</param>
+        /// <param name="columnName">Nom de la colonne.</param>
         /// <returns>Valeur de la colonne.</returns>
         public static object GetValue(this IDataRecord dataRecord, string columnName)
         {

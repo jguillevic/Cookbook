@@ -89,7 +89,7 @@
 
             <TextBlock Grid.Row="7" Grid.Column="0" Text="Particularité :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
             <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsVegetarian, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Content="Végétarien" Margin="0 0 5 0"/>
+                <CheckBox IsChecked="{Binding IsCookeo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Content="Cookeo" Margin="0 0 5 0"/>
                 <CheckBox IsChecked="{Binding IsFestive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Content="Festive" Margin="0 0 5 0"/>
             </StackPanel>
 

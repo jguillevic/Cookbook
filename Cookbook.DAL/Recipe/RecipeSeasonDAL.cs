@@ -32,7 +32,7 @@ namespace Cookbook.DAL.Recipe
             var recipeSeason = new RecipeSeason();
 
             recipeSeason.RecipeId = dataRecord.GetGuid(RecipeSeasonTableDescription.RecipeId);
-            recipeSeason.Season = (Season)dataRecord.GetInt32(RecipeSeasonTableDescription.SeasonId);
+            recipeSeason.SeasonId = dataRecord.GetGuid(RecipeSeasonTableDescription.SeasonId);
 
             return recipeSeason;
         }
@@ -63,7 +63,7 @@ namespace Cookbook.DAL.Recipe
                 value = new List<object>();
 
                 value.Add(recipeSeason.RecipeId);
-                value.Add((int)recipeSeason.Season);
+                value.Add(recipeSeason.SeasonId);
 
                 values.Add(value);
             }

@@ -1,19 +1,9 @@
-﻿using Cookbook.UWP.RecipeServiceReference;
-using Cookbook.UWP.Rule;
+﻿using Cookbook.Rule.Recipe;
+using Cookbook.UWP.RecipeServiceReference;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // Pour plus d'informations sur le modèle d'élément Page vierge, voir la page http://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,7 +23,7 @@ namespace Cookbook.UWP.Recipe
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -47,9 +37,18 @@ namespace Cookbook.UWP.Recipe
             else
             {
                 _isAdding = true;
-                recipe = RecipeRule.GetInitializedRecipe();
+                //recipe = RecipeRule.GetInitializedRecipe();
+                recipe = new Recipe {
+                    Id = Guid.NewGuid()
+                    , FeatureIds = new List<Guid>()
+                    , SeasonIds = new List<Guid>()
+                    , Instructions = new List<RecipeInstruction>()
+                    , Ingredients = new List<RecipeIngredient>()
+                };
                 _vm = new AddOrUpdateRecipeVM(recipe);
             }
+
+            await _vm.Populate();
 
             xGrid.DataContext = _vm;
         }
@@ -79,15 +78,12 @@ namespace Cookbook.UWP.Recipe
 
         private void xAddButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.Instructions.Add(new RecipeInstruction { RecipeId = _vm.Id, Order = _vm.IngredientCurrentOrder++ });
+            _vm.Instructions.Add(new RecipeInstruction { RecipeId = _vm.Id, Order = _vm.InstructionCurrentOrder++ });
         }
 
         private void xDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (xInstructListView.SelectedItem != null)
-            {
-                _vm.Instructions.Remove((RecipeInstruction)xInstructListView.SelectedItem);
-            }
+            _vm.Instructions.RemoveAt(_vm.Instructions.Count - 1);
         }
     }
 }

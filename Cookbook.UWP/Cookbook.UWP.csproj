@@ -91,52 +91,11 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="project.json" />
     <None Include="Properties\ServiceReferences.Designer.ClientConfig" />
-    <None Include="Service References\IngredientServiceReference\Cookbook.UWP.IngredientServiceReference.Ingredient.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\IngredientServiceReference\IngredientService.wsdl" />
-    <None Include="Service References\IngredientServiceReference\IngredientService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\IngredientServiceReference\IngredientService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\IngredientServiceReference\IngredientService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MeasureServiceReference\Cookbook.UWP.MeasureServiceReference.Measure.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\MeasureServiceReference\MeasureService.wsdl" />
-    <None Include="Service References\MeasureServiceReference\MeasureService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MeasureServiceReference\MeasureService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MeasureServiceReference\MeasureService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RecipeServiceReference\Cookbook.UWP.RecipeServiceReference.Recipe.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\RecipeServiceReference\RecipeService.wsdl" />
-    <None Include="Service References\RecipeServiceReference\RecipeService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RecipeServiceReference\RecipeService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\RecipeServiceReference\RecipeService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ViewModelBase.cs" />
-    <Compile Include="Engine\RecipeCrawler.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -151,6 +110,7 @@
     <Compile Include="Recipe\AddOrUpdateRecipeVM.cs" />
     <Compile Include="Recipe\CostDataProvider.cs" />
     <Compile Include="Recipe\DifficultyDataProvider.cs" />
+    <Compile Include="Recipe\FeatureDataProvider.cs" />
     <Compile Include="Recipe\ListIngredientsPage.xaml.cs">
       <DependentUpon>ListIngredientsPage.xaml</DependentUpon>
     </Compile>
@@ -158,22 +118,7 @@
       <DependentUpon>ListRecipesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Recipe\RecipeKindDataProvider.cs" />
-    <Compile Include="Rule\RecipeRule.cs" />
-    <Compile Include="Service References\IngredientServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\MeasureServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\RecipeServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
+    <Compile Include="Recipe\SeasonDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -190,27 +135,6 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <None Include="Service References\RecipeServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\RecipeServiceReference\configuration.svcinfo" />
-    <None Include="Service References\RecipeServiceReference\configuration91.svcinfo" />
-    <None Include="Service References\RecipeServiceReference\RecipeService.disco" />
-    <None Include="Service References\MeasureServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\MeasureServiceReference\configuration.svcinfo" />
-    <None Include="Service References\MeasureServiceReference\configuration91.svcinfo" />
-    <None Include="Service References\MeasureServiceReference\MeasureService.disco" />
-    <None Include="Service References\IngredientServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\IngredientServiceReference\configuration.svcinfo" />
-    <None Include="Service References\IngredientServiceReference\configuration91.svcinfo" />
-    <None Include="Service References\IngredientServiceReference\IngredientService.disco" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -242,9 +166,18 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\IngredientServiceReference\" />
-    <WCFMetadataStorage Include="Service References\MeasureServiceReference\" />
-    <WCFMetadataStorage Include="Service References\RecipeServiceReference\" />
+    <ProjectReference Include="..\Cookbook.Entity\Cookbook.Entity.csproj">
+      <Project>{1437AB44-1A5C-446C-BA9B-3CE941C9C87D}</Project>
+      <Name>Cookbook.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cookbook.Rule\Cookbook.Rule.csproj">
+      <Project>{AD796BB3-70AD-411A-8E81-2D76BE3C231D}</Project>
+      <Name>Cookbook.Rule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.UI\Tools.UI.csproj">
+      <Project>{4415A446-9683-4C03-AEDB-591FAEB3EFCB}</Project>
+      <Name>Tools.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

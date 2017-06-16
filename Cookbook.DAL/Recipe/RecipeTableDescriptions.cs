@@ -5,6 +5,7 @@
         public const string TableName = "Cost";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
     }
 
     public static class DifficultyTableDescription
@@ -12,6 +13,7 @@
         public const string TableName = "Difficulty";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
     }
 
     public static class FeatureTableDescription
@@ -19,6 +21,7 @@
         public const string TableName = "Feature";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
     }
 
     public static class SeasonTableDescription
@@ -26,6 +29,7 @@
         public const string TableName = "Season";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
     }
 
     public static class RecipeKindTableDescription
@@ -33,6 +37,7 @@
         public const string TableName = "RecipeKind";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
     }
 
     public static class MeasureTableDescription
@@ -57,6 +62,9 @@
         public const string Description = "Description";
         public const string PreparationTime = "PreparationTime";
         public const string CookingTime = "CookingTime";
+        public const string CostId = "CostId";
+        public const string DifficultyId = "DifficultyId";
+        public const string RecipeKindId = "RecipeKindId";
         public const string ExternalUrl = "ExternalUrl";
         public const string UserId = "UserId";
     }
@@ -91,26 +99,5 @@
         public const string TableName = "RecipeSeason";
         public const string RecipeId = "RecipeId";
         public const string SeasonId = "SeasonId";
-    }
-
-    public static class RecipeCostTableDescription
-    {
-        public const string TableName = "RecipeCost";
-        public const string RecipeId = "RecipeId";
-        public const string CostId = "CostId";
-    }
-
-    public static class RecipeDifficultyTableDescription
-    {
-        public const string TableName = "RecipeDifficulty";
-        public const string RecipeId = "RecipeId";
-        public const string DifficultyId = "DifficultyId";
-    }
-
-    public static class RecipeRecipeKindTableDescription
-    {
-        public const string TableName = "RecipeRecipeKind";
-        public const string RecipeId = "RecipeId";
-        public const string RecipeKindId = "RecipeKindId";
     }
 }

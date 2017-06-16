@@ -57,25 +57,25 @@ namespace Cookbook.Engine.Recipe
                 recipeResult = recipeResult.Replace("</div>", string.Empty);
                 recipeResults = recipeResult.Split('-');
 
-                if (recipeResults.Length >= 1)
-                {
-                    recipe.RecipeKind = RecognizeRecipeKind(recipeResults[0]);
-                }
+                //if (recipeResults.Length >= 1)
+                //{
+                //    recipe.RecipeKindId = RecognizeRecipeKind(recipeResults[0]);
+                //}
 
-                if (recipeResults.Length >= 2)
-                {
-                    recipe.Difficulty = RecognizeDifficulty(recipeResults[1]);
-                }
+                //if (recipeResults.Length >= 2)
+                //{
+                //    recipe.DifficultyId = RecognizeDifficulty(recipeResults[1]);
+                //}
 
-                if (recipeResults.Length >= 3)
-                {
-                    recipe.Cost = RecognizeCost(recipeResults[2]);
-                }
+                //if (recipeResults.Length >= 3)
+                //{
+                //    recipe.CostId = RecognizeCost(recipeResults[2]);
+                //}
 
-                if (recipeResults.Length >= 4)
-                {
-                    recipe.Feature = RecognizeFeature(recipeResults[3]);
-                }
+                //if (recipeResults.Length >= 4)
+                //{
+                //    recipe.FeatureIds = RecognizeFeature(recipeResults[3]);
+                //}
 
                 // Récupération du temps de préparation.
                 match = Regex.Match(result, "<span class=\"preptime\">[^<]*<");
@@ -124,105 +124,102 @@ namespace Cookbook.Engine.Recipe
             //return new string(chars).Normalize(NormalizationForm.FormC);
         }
 
-        private static RecipeKind RecognizeRecipeKind(string label)
-        {
-            var recipeKind = RecipeKind.None;
+        //private static RecipeKind RecognizeRecipeKind(string label)
+        //{
+        //    var recipeKind = RecipeKind.None;
 
-            switch (RemoveDiacritics(label.Trim().ToLower()))
-            {
-                case "entree":
-                    recipeKind = RecipeKind.Starter;
-                    break;
-                case "plat principal":
-                    recipeKind = RecipeKind.MainCourse;
-                    break;
-                case "dessert":
-                    recipeKind = RecipeKind.Dessert;
-                    break;
-                case "boisson":
-                    recipeKind = RecipeKind.Drink;
-                    break;
-                case "sauce":
-                    recipeKind = RecipeKind.Sauce;
-                    break;
-                case "accompagnement":
-                    recipeKind = RecipeKind.SideDish;
-                    break;
-                case "amuse-gueule":
-                    recipeKind = RecipeKind.AmuseGueule;
-                    break;
-                case "confiserie":
-                    recipeKind = RecipeKind.Sweet;
-                    break;
-                default:
-                    break;
-            }
+        //    switch (RemoveDiacritics(label.Trim().ToLower()))
+        //    {
+        //        case "entree":
+        //            recipeKind = RecipeKind.Starter;
+        //            break;
+        //        case "plat principal":
+        //            recipeKind = RecipeKind.MainCourse;
+        //            break;
+        //        case "dessert":
+        //            recipeKind = RecipeKind.Dessert;
+        //            break;
+        //        case "boisson":
+        //            recipeKind = RecipeKind.Drink;
+        //            break;
+        //        case "sauce":
+        //            recipeKind = RecipeKind.Sauce;
+        //            break;
+        //        case "accompagnement":
+        //            recipeKind = RecipeKind.SideDish;
+        //            break;
+        //        case "amuse-gueule":
+        //            recipeKind = RecipeKind.AmuseGueule;
+        //            break;
+        //        case "confiserie":
+        //            recipeKind = RecipeKind.Sweet;
+        //            break;
+        //        default:
+        //            break;
+        //    }
 
-            return recipeKind;
-        }
+        //    return recipeKind;
+        //}
 
-        private static Difficulty RecognizeDifficulty(string label)
-        {
-            var difficulty = Difficulty.None;
+        //private static Difficulty RecognizeDifficulty(string label)
+        //{
+        //    var difficulty = Difficulty.None;
 
-            switch (RemoveDiacritics(label.Trim().ToLower()))
-            {
-                case "tres facile":
-                    difficulty = Difficulty.VeryEasy;
-                    break;
-                case "facile":
-                    difficulty = Difficulty.Easy;
-                    break;
-                case "moyenne":
-                case "moyennement difficile":
-                    difficulty = Difficulty.Medium;
-                    break;
-                case "difficile":
-                    difficulty = Difficulty.Difficult;
-                    break;
-                default:
-                    break;
-            }
+        //    switch (RemoveDiacritics(label.Trim().ToLower()))
+        //    {
+        //        case "tres facile":
+        //            difficulty = Difficulty.VeryEasy;
+        //            break;
+        //        case "facile":
+        //            difficulty = Difficulty.Easy;
+        //            break;
+        //        case "moyenne":
+        //        case "moyennement difficile":
+        //            difficulty = Difficulty.Medium;
+        //            break;
+        //        case "difficile":
+        //            difficulty = Difficulty.Difficult;
+        //            break;
+        //        default:
+        //            break;
+        //    }
 
-            return difficulty;
-        }
+        //    return difficulty;
+        //}
 
-        private static Cost RecognizeCost(string label)
-        {
-            var cost = Cost.None;
+        //private static Cost RecognizeCost(string label)
+        //{
+        //    var cost = Cost.None;
 
-            switch (RemoveDiacritics(label.Trim().ToLower()))
-            {
-                case "bon marche":
-                    cost = Cost.Cheap;
-                    break;
-                case "moyen":
-                    cost = Cost.Medium;
-                    break;
-                case "assez cher":
-                    cost = Cost.Expensive;
-                    break;
-                default:
-                    break;
-            }
+        //    switch (RemoveDiacritics(label.Trim().ToLower()))
+        //    {
+        //        case "bon marche":
+        //            cost = Cost.Cheap;
+        //            break;
+        //        case "moyen":
+        //            cost = Cost.Medium;
+        //            break;
+        //        case "assez cher":
+        //            cost = Cost.Expensive;
+        //            break;
+        //        default:
+        //            break;
+        //    }
 
-            return cost;
-        }
+        //    return cost;
+        //}
 
-        private static Feature RecognizeFeature(string label)
-        {
-            var feature = Feature.None;
+        //private static Feature RecognizeFeature(string label)
+        //{
+        //    var feature = Feature.None;
 
-            switch (RemoveDiacritics(label.Trim().ToLower()))
-            {
-                case "vegetarien":
-                    feature = Feature.Vegetarian;
-                    break;
-                default:
-                    break;
-            }
+        //    switch (RemoveDiacritics(label.Trim().ToLower()))
+        //    {
+        //        default:
+        //            break;
+        //    }
 
-            return feature;
-        }
+        //    return feature;
+        //}
     }
 }

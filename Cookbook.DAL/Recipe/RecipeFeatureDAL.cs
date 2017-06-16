@@ -32,7 +32,7 @@ namespace Cookbook.DAL.Recipe
             var recipeFeature = new RecipeFeature();
 
             recipeFeature.RecipeId = dataRecord.GetGuid(RecipeFeatureTableDescription.RecipeId);
-            recipeFeature.Feature = (Feature)dataRecord.GetInt32(RecipeFeatureTableDescription.FeatureId);
+            recipeFeature.FeatureId = dataRecord.GetGuid(RecipeFeatureTableDescription.FeatureId);
 
             return recipeFeature;
         }
@@ -63,7 +63,7 @@ namespace Cookbook.DAL.Recipe
                 value = new List<object>();
 
                 value.Add(recipeFeature.RecipeId);
-                value.Add((int)recipeFeature.Feature);
+                value.Add(recipeFeature.FeatureId);
 
                 values.Add(value);
             }

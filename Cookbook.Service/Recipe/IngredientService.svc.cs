@@ -1,4 +1,5 @@
-﻿using Cookbook.DAL.Recipe;
+﻿using Cookbook.Contract.Recipe;
+using Cookbook.DAL.Recipe;
 using Cookbook.Entity.Recipe;
 using System.Collections.Generic;
 

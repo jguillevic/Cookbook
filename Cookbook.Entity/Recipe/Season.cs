@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Cookbook.Entity.Recipe
 {
-    [Flags]
-    public enum Season
+    [DataContract]
+    public class Season
     {
-        None = 0,
-        Winter = 1,
-        Spring = 2,
-        Summer = 4,
-        Autumn = 8,
+        [DataMember]
+        public Guid Id { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public string Code { get; set; }
     }
 }

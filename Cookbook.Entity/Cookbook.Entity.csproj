@@ -13,8 +13,8 @@
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile44</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,16 +42,14 @@
     <Compile Include="Recipe\Difficulty.cs" />
     <Compile Include="Recipe\Feature.cs" />
     <Compile Include="Recipe\Ingredient.cs" />
+    <Compile Include="Recipe\IngredientKind.cs" />
     <Compile Include="Recipe\Measure.cs" />
     <Compile Include="Recipe\Recipe.cs" />
-    <Compile Include="Recipe\RecipeCost.cs" />
-    <Compile Include="Recipe\RecipeDifficulty.cs" />
     <Compile Include="Recipe\RecipeFeature.cs" />
     <Compile Include="Recipe\RecipeFilter.cs" />
     <Compile Include="Recipe\RecipeIngredient.cs" />
     <Compile Include="Recipe\RecipeInstruction.cs" />
     <Compile Include="Recipe\RecipeKind.cs" />
-    <Compile Include="Recipe\RecipeRecipeKind.cs" />
     <Compile Include="Recipe\RecipeSeason.cs" />
     <Compile Include="Recipe\Season.cs" />
   </ItemGroup>
