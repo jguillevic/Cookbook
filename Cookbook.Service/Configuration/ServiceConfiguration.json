@@ -1,0 +1,11 @@
+﻿{
+  "BaseUrl": "http://localhost:51875/",
+  "RecipeRoute": "/api/v1/recipes",
+  "CostRoute": "/api/v1/costs",
+  "DifficultyRoute": "/api/v1/difficulties",
+  "RecipeKindRoute": "/api/v1/recipeKinds",
+  "SeasonRoute": "/api/v1/seasons",
+  "FeatureRoute": "/api/v1/features",
+  "IngredientRoute": "/api/v1/ingredients",
+  "MeasureRoute": "/api/v1/measures"
+}

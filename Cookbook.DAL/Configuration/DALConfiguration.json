@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=DESKTOP-9HSO3TR\\SQL2014;Initial Catalog=Cookbook;Integrated Security=True;"
+  }
+}

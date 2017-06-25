@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Cookbook.Service.Recipe.SeasonService" CodeBehind="SeasonService.svc.cs" %>

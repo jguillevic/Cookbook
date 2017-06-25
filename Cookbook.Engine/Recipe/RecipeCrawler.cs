@@ -8,7 +8,7 @@ namespace Cookbook.Engine.Recipe
 {
     using Entity.Recipe;
 
-    public class RecipeCrawler
+    public static class RecipeCrawler
     {
         public static async Task<List<Recipe>> CrawlRecipes(int recipeNumber)
         {
@@ -19,94 +19,96 @@ namespace Cookbook.Engine.Recipe
             string marmitonUrl = "http://www.marmiton.org/recettes/recette-hasard.aspx";
 
 
-            HttpClient httpClient = new HttpClient();
-            string result;
-            string recipeResult;
-            string[] recipeResults;
-
-            for (int i = 0; i < recipeNumber; i++)
+            using (HttpClient httpClient = new HttpClient())
             {
-                // Récupération des liens des recettes incontournables. 
-                result = await httpClient.GetStringAsync(marmitonUrl);
-                result = result.Replace(Environment.NewLine, string.Empty);
+                string result;
+                string recipeResult;
+                string[] recipeResults;
 
-                // Construction de la recette.
-                recipe = new Recipe();
+                for (int i = 0; i < recipeNumber; i++)
+                {
+                    // Récupération des liens des recettes incontournables. 
+                    result = await httpClient.GetStringAsync(marmitonUrl);
+                    result = result.Replace(Environment.NewLine, string.Empty);
 
-                // Affectation d'un nouvel identifiant.
-                recipe.Id = Guid.NewGuid();
+                    // Construction de la recette.
+                    recipe = new Recipe();
 
-                // Affectation du lien source.
-                match = Regex.Match(result, "<link rel=\"canonical\" href=\"[^>]*\"/>");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("<link rel=\"canonical\" href=\"", string.Empty);
-                recipeResult = recipeResult.Replace("\"/>", string.Empty);
-                recipe.ExternalUrl = recipeResult.Trim();
+                    // Affectation d'un nouvel identifiant.
+                    recipe.Id = Guid.NewGuid();
 
-                // Récupération du titre.
-                match = Regex.Match(result, "<span class=\"fn\">[^<]*</span>");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("<span class=\"fn\">", string.Empty);
-                recipeResult = recipeResult.Replace("</span>", string.Empty);
-                recipe.Name = recipeResult.Trim();
+                    // Affectation du lien source.
+                    match = Regex.Match(result, "<link rel=\"canonical\" href=\"[^>]*\"/>");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("<link rel=\"canonical\" href=\"", string.Empty);
+                    recipeResult = recipeResult.Replace("\"/>", string.Empty);
+                    recipe.ExternalUrl = recipeResult.Trim();
 
-                // Récupération du type de plat - difficulté - coût.
-                match = Regex.Match(result, "<div class=\"m_content_recette_breadcrumb\">[^<]*</div>");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("<div class=\"m_content_recette_breadcrumb\">", string.Empty);
-                recipeResult = recipeResult.Replace("</div>", string.Empty);
-                recipeResults = recipeResult.Split('-');
+                    // Récupération du titre.
+                    match = Regex.Match(result, "<span class=\"fn\">[^<]*</span>");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("<span class=\"fn\">", string.Empty);
+                    recipeResult = recipeResult.Replace("</span>", string.Empty);
+                    recipe.Name = recipeResult.Trim();
 
-                //if (recipeResults.Length >= 1)
-                //{
-                //    recipe.RecipeKindId = RecognizeRecipeKind(recipeResults[0]);
-                //}
+                    // Récupération du type de plat - difficulté - coût.
+                    match = Regex.Match(result, "<div class=\"m_content_recette_breadcrumb\">[^<]*</div>");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("<div class=\"m_content_recette_breadcrumb\">", string.Empty);
+                    recipeResult = recipeResult.Replace("</div>", string.Empty);
+                    recipeResults = recipeResult.Split('-');
 
-                //if (recipeResults.Length >= 2)
-                //{
-                //    recipe.DifficultyId = RecognizeDifficulty(recipeResults[1]);
-                //}
+                    //if (recipeResults.Length >= 1)
+                    //{
+                    //    recipe.RecipeKindId = RecognizeRecipeKind(recipeResults[0]);
+                    //}
 
-                //if (recipeResults.Length >= 3)
-                //{
-                //    recipe.CostId = RecognizeCost(recipeResults[2]);
-                //}
+                    //if (recipeResults.Length >= 2)
+                    //{
+                    //    recipe.DifficultyId = RecognizeDifficulty(recipeResults[1]);
+                    //}
 
-                //if (recipeResults.Length >= 4)
-                //{
-                //    recipe.FeatureIds = RecognizeFeature(recipeResults[3]);
-                //}
+                    //if (recipeResults.Length >= 3)
+                    //{
+                    //    recipe.CostId = RecognizeCost(recipeResults[2]);
+                    //}
 
-                // Récupération du temps de préparation.
-                match = Regex.Match(result, "<span class=\"preptime\">[^<]*<");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("<span class=\"preptime\">", string.Empty);
-                recipeResult = recipeResult.Replace("<", string.Empty);
-                recipe.PreparationTime = int.Parse(recipeResult.Trim());
+                    //if (recipeResults.Length >= 4)
+                    //{
+                    //    recipe.FeatureIds = RecognizeFeature(recipeResults[3]);
+                    //}
 
-                // Récupération du temps de cuisson.
-                match = Regex.Match(result, "<span class=\"cooktime\">[^<]*<");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("<span class=\"cooktime\">", string.Empty);
-                recipeResult = recipeResult.Replace("<", string.Empty);
-                recipe.CookingTime = int.Parse(recipeResult.Trim());
+                    // Récupération du temps de préparation.
+                    match = Regex.Match(result, "<span class=\"preptime\">[^<]*<");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("<span class=\"preptime\">", string.Empty);
+                    recipeResult = recipeResult.Replace("<", string.Empty);
+                    recipe.PreparationTime = int.Parse(recipeResult.Trim());
 
-                // Récupération des étapes de préparation.
-                match = Regex.Match(result, "paration de la recette :</h4>[^@]*<div class=\"m_content_recette_ps\">");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("paration de la recette :</h4>                    <br />", string.Empty);
-                recipeResult = recipeResult.Replace("<div class=\"m_content_recette_ps\">", string.Empty);
-                recipe.Instructions = new List<RecipeInstruction> { new RecipeInstruction { RecipeId = recipe.Id, Instruction = recipeResult.Trim(), Order = 1 } };
+                    // Récupération du temps de cuisson.
+                    match = Regex.Match(result, "<span class=\"cooktime\">[^<]*<");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("<span class=\"cooktime\">", string.Empty);
+                    recipeResult = recipeResult.Replace("<", string.Empty);
+                    recipe.CookingTime = int.Parse(recipeResult.Trim());
 
-                // Récupération des ingrédients.
-                match = Regex.Match(result, "<div class=\"m_content_recette_ingredients m_avec_substitution\" data-content=\"switch-conversion\">[^@]*<div class=\"mrtn_format sas_FormatID_38565\">");
-                recipeResult = match.Value;
-                recipeResult = recipeResult.Replace("<div class=\"m_content_recette_ingredients m_avec_substitution\" data-content=\"switch-conversion\">", string.Empty);
-                recipeResult = recipeResult.Replace("<div class=\"mrtn_format sas_FormatID_38565\">", string.Empty);
-                match = Regex.Match(RemoveDiacritics(recipeResult.ToLower()), "<span>ingredients \\(pour [^<]*<");
-                int numberPers = int.Parse(match.Value.Replace("<span>ingredients \\(pour ", string.Empty).Replace("<", string.Empty)); 
+                    // Récupération des étapes de préparation.
+                    match = Regex.Match(result, "paration de la recette :</h4>[^@]*<div class=\"m_content_recette_ps\">");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("paration de la recette :</h4>                    <br />", string.Empty);
+                    recipeResult = recipeResult.Replace("<div class=\"m_content_recette_ps\">", string.Empty);
+                    recipe.Instructions = new List<RecipeInstruction> { new RecipeInstruction { RecipeId = recipe.Id, Instruction = recipeResult.Trim(), Order = 1 } };
 
-                recipes.Add(recipe);
+                    // Récupération des ingrédients.
+                    match = Regex.Match(result, "<div class=\"m_content_recette_ingredients m_avec_substitution\" data-content=\"switch-conversion\">[^@]*<div class=\"mrtn_format sas_FormatID_38565\">");
+                    recipeResult = match.Value;
+                    recipeResult = recipeResult.Replace("<div class=\"m_content_recette_ingredients m_avec_substitution\" data-content=\"switch-conversion\">", string.Empty);
+                    recipeResult = recipeResult.Replace("<div class=\"mrtn_format sas_FormatID_38565\">", string.Empty);
+                    match = Regex.Match(RemoveDiacritics(recipeResult.ToLower()), "<span>ingredients \\(pour [^<]*<");
+                    int numberPers = int.Parse(match.Value.Replace("<span>ingredients \\(pour ", string.Empty).Replace("<", string.Empty));
+
+                    recipes.Add(recipe);
+                }
             }
 
             return recipes;

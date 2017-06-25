@@ -86,14 +86,14 @@ namespace Cookbook.DAL.Recipe
             sqb.AddJoin(JoinType.LeftJoin, RecipeTableDescription.TableName, new List<string> { RecipeTableDescription.Id }, Comparison.Equals, RecipeFeatureTableDescription.TableName, new List<string> { RecipeFeatureTableDescription.RecipeId });
 
             bool hasWhere = false;
-            hasWhere = AddNameCondition(sqb, filter, hasWhere);
-            hasWhere = AddCookingTimeCondition(sqb, filter, hasWhere);
-            hasWhere = AddPreparationTimeCondition(sqb, filter, hasWhere);
-            hasWhere = AddDifficultyCondition(sqb, filter, hasWhere);
-            hasWhere = AddCostCondition(sqb, filter, hasWhere);
-            hasWhere = AddSeasonCondition(sqb, filter, hasWhere);
-            hasWhere = AddFeatureCondition(sqb, filter, hasWhere);
-            hasWhere = AddRecipeKindCondition(sqb, filter, hasWhere);
+            hasWhere = AddNameCondition(sqb, filter.Name, hasWhere);
+            hasWhere = AddCookingTimeCondition(sqb, filter.CookingTime, hasWhere);
+            hasWhere = AddPreparationTimeCondition(sqb, filter.PreparationTime, hasWhere);
+            hasWhere = AddDifficultyCondition(sqb, filter.DifficultyIds, hasWhere);
+            hasWhere = AddCostCondition(sqb, filter.CostIds, hasWhere);
+            hasWhere = AddSeasonCondition(sqb, filter.SeasonIds, hasWhere);
+            hasWhere = AddFeatureCondition(sqb, filter.FeatureIds, hasWhere);
+            hasWhere = AddRecipeKindCondition(sqb, filter.RecipeKindIds, hasWhere);
 
             sqb.AddOrderBy(RecipeTableDescription.Id, Sorting.Ascending);
 
@@ -120,17 +120,131 @@ namespace Cookbook.DAL.Recipe
             return recipe;
         }
 
-        private static bool AddNameCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
+        private static bool AddNameCondition(SelectQueryBuilder sqb, string name, bool hasWhere)
         {
-            if (!string.IsNullOrWhiteSpace(filter.Name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 if (!hasWhere)
                 {
-                    sqb.AddWhere(RecipeTableDescription.Name, Comparison.Like, filter.Name);
+                    sqb.AddWhere(RecipeTableDescription.Name, Comparison.Like, name);
                 }
                 else
                 {
-                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.Name, Comparison.Like, filter.Name);
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.Name, Comparison.Like, name);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
+        private static bool AddCookingTimeCondition(SelectQueryBuilder sqb, int? cookingTime, bool hasWhere)
+        {
+            if (cookingTime.HasValue)
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeTableDescription.CookingTime, Comparison.LessOrEquals, cookingTime.Value);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.CookingTime, Comparison.LessOrEquals, cookingTime.Value);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
+        private static bool AddPreparationTimeCondition(SelectQueryBuilder sqb, int? preparationTime, bool hasWhere)
+        {
+            if (preparationTime.HasValue)
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeTableDescription.PreparationTime, Comparison.LessOrEquals, preparationTime.Value);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.PreparationTime, Comparison.LessOrEquals, preparationTime.Value);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
+        private static bool AddDifficultyCondition(SelectQueryBuilder sqb, List<Guid> difficulties, bool hasWhere)
+        {
+            if (difficulties.Any())
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeTableDescription.DifficultyId, Comparison.In, difficulties);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.DifficultyId, Comparison.In, difficulties);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
+        private static bool AddCostCondition(SelectQueryBuilder sqb, List<Guid> costIds, bool hasWhere)
+        {
+            if (costIds.Any())
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeTableDescription.CostId, Comparison.In, costIds);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.CostId, Comparison.In, costIds);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
+        private static bool AddSeasonCondition(SelectQueryBuilder sqb, List<Guid> seasonIds, bool hasWhere)
+        {
+            if (seasonIds.Any())
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeSeasonTableDescription.SeasonId, Comparison.In, seasonIds);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeSeasonTableDescription.SeasonId, Comparison.In, seasonIds);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
+        private static bool AddFeatureCondition(SelectQueryBuilder sqb, List<Guid> featureIds, bool hasWhere)
+        {
+            if (featureIds.Any())
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeFeatureTableDescription.FeatureId, Comparison.In, featureIds);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeFeatureTableDescription.FeatureId, Comparison.In, featureIds);
                 }
 
                 return true;
@@ -139,137 +253,23 @@ namespace Cookbook.DAL.Recipe
             return false;
         }
 
-        private static bool AddCookingTimeCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
+        private static bool AddRecipeKindCondition(SelectQueryBuilder sqb, List<Guid> recipeKindIds, bool hasWhere)
         {
-            if (filter.CookingTime.HasValue)
+            if (recipeKindIds.Any())
             {
                 if (!hasWhere)
                 {
-                    sqb.AddWhere(RecipeTableDescription.CookingTime, Comparison.LessOrEquals, filter.CookingTime);
+                    sqb.AddWhere(RecipeTableDescription.RecipeKindId, Comparison.In, recipeKindIds);
                 }
                 else
                 {
-                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.CookingTime, Comparison.LessOrEquals, filter.CookingTime);
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.RecipeKindId, Comparison.In, recipeKindIds);
                 }
 
                 return true;
             }
 
-            return false;
-        }
-
-        private static bool AddPreparationTimeCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
-        {
-            if (filter.PreparationTime.HasValue)
-            {
-                if (!hasWhere)
-                {
-                    sqb.AddWhere(RecipeTableDescription.PreparationTime, Comparison.LessOrEquals, filter.PreparationTime);
-                }
-                else
-                {
-                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.PreparationTime, Comparison.LessOrEquals, filter.PreparationTime);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool AddDifficultyCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
-        {
-            if (filter.DifficultyIds.Any())
-            {
-                if (!hasWhere)
-                {
-                    sqb.AddWhere(RecipeTableDescription.DifficultyId, Comparison.In, filter.DifficultyIds);
-                }
-                else
-                {
-                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.DifficultyId, Comparison.In, filter.DifficultyIds);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool AddCostCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
-        {
-            if (filter.CostIds.Any())
-            {
-                if (!hasWhere)
-                {
-                    sqb.AddWhere(RecipeTableDescription.CostId, Comparison.In, filter.CostIds);
-                }
-                else
-                {
-                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.CostId, Comparison.In, filter.CostIds);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool AddSeasonCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
-        {
-            if (filter.SeasonIds.Any())
-            {
-                if (!hasWhere)
-                {
-                    sqb.AddWhere(RecipeSeasonTableDescription.SeasonId, Comparison.In, filter.SeasonIds);
-                }
-                else
-                {
-                    sqb.AddCondition(LogicOperator.And, RecipeSeasonTableDescription.SeasonId, Comparison.In, filter.SeasonIds);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool AddFeatureCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
-        {
-            if (filter.FeatureIds.Any())
-            {
-                if (!hasWhere)
-                {
-                    sqb.AddWhere(RecipeFeatureTableDescription.FeatureId, Comparison.In, filter.FeatureIds);
-                }
-                else
-                {
-                    sqb.AddCondition(LogicOperator.And, RecipeFeatureTableDescription.FeatureId, Comparison.In, filter.FeatureIds);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool AddRecipeKindCondition(SelectQueryBuilder sqb, RecipeFilter filter, bool hasWhere)
-        {
-            if (filter.RecipeKindIds.Any())
-            {
-                if (!hasWhere)
-                {
-                    sqb.AddWhere(RecipeTableDescription.RecipeKindId, Comparison.In, filter.RecipeKindIds);
-                }
-                else
-                {
-                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.RecipeKindId, Comparison.In, filter.RecipeKindIds);
-                }
-
-                return true;
-            }
-
-            return false;
+            return hasWhere;
         }
         
         public void Add(IEnumerable<Recipe> recipes)

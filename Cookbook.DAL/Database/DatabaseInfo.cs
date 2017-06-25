@@ -1,4 +1,4 @@
-﻿using System.Web.Configuration;
+﻿using Cookbook.DAL.Configuration;
 
 namespace Cookbook.DAL.Database
 {
@@ -8,7 +8,7 @@ namespace Cookbook.DAL.Database
 
         static DatabaseInfo()
         {
-            DefaultConnectionString = WebConfigurationManager.ConnectionStrings["DefaultConnectionString"].ConnectionString;
+            DefaultConnectionString = DALConfiguration.Instance.ConnectionStrings.DefaultConnection;
         }
     }
 }

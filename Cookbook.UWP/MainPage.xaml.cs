@@ -13,25 +13,5 @@ namespace Cookbook.UWP
         {
             this.InitializeComponent();
         }
-
-        private void xIngredientButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(Recipe.ListIngredientsPage));
-        }
-
-        private void xMeasureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-
-        }
-
-        private void xRecipeButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(Recipe.ListRecipesPage));
-        }
-
-        private void xMealButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-
-        }
     }
 }

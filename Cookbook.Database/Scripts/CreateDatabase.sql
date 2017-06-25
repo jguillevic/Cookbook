@@ -1,4 +1,14 @@
+USE [master]
+
+IF EXISTS(SELECT * FROM sys.databases WHERE name='Cookbook')
+BEGIN
+ALTER DATABASE [Cookbook] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+DROP DATABASE [Cookbook]
+END
+GO
+
 CREATE DATABASE [Cookbook]
+COLLATE Latin1_General_100_CS_AS
 GO
 
 USE [Cookbook]
@@ -6,37 +16,43 @@ USE [Cookbook]
 CREATE TABLE [dbo].[Cost](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	CONSTRAINT [PK_Cost] PRIMARY KEY ([Id]))
 GO
 
 CREATE TABLE [dbo].[Difficulty](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	CONSTRAINT [PK_Difficulty] PRIMARY KEY ([Id]))
 GO
 
 CREATE TABLE [dbo].[Feature](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	CONSTRAINT [PK_Feature] PRIMARY KEY ([Id]))
 GO
 
 CREATE TABLE [dbo].[Season](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	CONSTRAINT [PK_Season] PRIMARY KEY ([Id]))
 GO
 
 CREATE TABLE [dbo].[RecipeKind](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	CONSTRAINT [PK_RecipeKind] PRIMARY KEY ([Id]))
 GO
 
 CREATE TABLE [dbo].[IngredientKind](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](200) NOT NULL,
-	CONSTRAINT [PK_RecipeKind] PRIMARY KEY ([Id]))
+	[Code] [nvarchar](30) NOT NULL,
+	CONSTRAINT [PK_IngredientKind] PRIMARY KEY ([Id]))
 GO
 
 CREATE TABLE [dbo].[Ingredient](
@@ -60,6 +76,7 @@ GO
 CREATE TABLE [dbo].[Measure](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	CONSTRAINT [PK_Measure] PRIMARY KEY ([Id]))
 GO
 
