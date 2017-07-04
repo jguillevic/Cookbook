@@ -1,6 +1,6 @@
 ﻿namespace Tools.UI.ViewData
 {
-    public class ViewDataBase : BindableBase
+    public abstract class ViewDataBase : BindableBase
     {
     }
 }

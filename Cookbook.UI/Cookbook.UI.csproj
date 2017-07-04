@@ -100,25 +100,14 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewData\Recipe\IngredientSummaryVD.cs" />
+    <Compile Include="ViewData\Recipe\IngredientVD.cs" />
     <Compile Include="ViewData\Recipe\MeasureSummaryVD.cs" />
     <Compile Include="ViewData\Recipe\MeasureVD.cs" />
-    <Compile Include="View\Recipe\AddOrUpdateIngredientPage.xaml.cs">
-      <DependentUpon>AddOrUpdateIngredientPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Recipe\AddOrUpdateMeasurePage.xaml.cs">
-      <DependentUpon>AddOrUpdateMeasurePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Recipe\AddOrUpdateRecipePage.xaml.cs">
-      <DependentUpon>AddOrUpdateRecipePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Recipe\ListIngredientsPage.xaml.cs">
-      <DependentUpon>ListIngredientsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Recipe\ListMeasuresPage.xaml.cs">
-      <DependentUpon>ListMeasuresPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Recipe\ListRecipesPage.xaml.cs">
-      <DependentUpon>ListRecipesPage.xaml</DependentUpon>
+    <Compile Include="ViewModel\Home\HomeViewModel.cs" />
+    <Compile Include="View\DataTemplatesDic.cs" />
+    <Compile Include="View\Home\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewData\Recipe\RecipeFilterVD.cs" />
@@ -132,6 +121,24 @@
     <Compile Include="ViewModel\Recipe\ListIngredientsVM.cs" />
     <Compile Include="ViewModel\Recipe\ListMeasuresVM.cs" />
     <Compile Include="ViewModel\Recipe\ListRecipesVM.cs" />
+    <Compile Include="View\Recipe\AddOrUpdateIngredientView.xaml.cs">
+      <DependentUpon>AddOrUpdateIngredientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\AddOrUpdateMeasureView.xaml.cs">
+      <DependentUpon>AddOrUpdateMeasureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\AddOrUpdateRecipeView.xaml.cs">
+      <DependentUpon>AddOrUpdateRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\ListIngredientsView.xaml.cs">
+      <DependentUpon>ListIngredientsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\ListMeasuresView.xaml.cs">
+      <DependentUpon>ListMeasuresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Recipe\ListRecipesView.xaml.cs">
+      <DependentUpon>ListRecipesView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -158,27 +165,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Recipe\AddOrUpdateIngredientPage.xaml">
+    <Page Include="View\DataTemplatesDic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="View\Home\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Recipe\AddOrUpdateMeasurePage.xaml">
+    <Page Include="View\Recipe\AddOrUpdateIngredientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Recipe\AddOrUpdateRecipePage.xaml">
+    <Page Include="View\Recipe\AddOrUpdateMeasureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Recipe\ListIngredientsPage.xaml">
+    <Page Include="View\Recipe\AddOrUpdateRecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Recipe\ListMeasuresPage.xaml">
+    <Page Include="View\Recipe\ListIngredientsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Recipe\ListRecipesPage.xaml">
+    <Page Include="View\Recipe\ListMeasuresView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Recipe\ListRecipesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

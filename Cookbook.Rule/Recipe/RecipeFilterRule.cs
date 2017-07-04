@@ -1,12 +1,10 @@
 ﻿using Cookbook.Entity.Recipe;
-using System;
-using System.Collections.Generic;
 
 namespace Cookbook.Rule.Recipe
 {
-    public class RecipeFilterRule
+    public static class RecipeFilterRule
     {
-        public static RecipeFilter GetDefaultRecipeFilter()
+        public static RecipeFilter GetDefault()
         {
             var filter = new RecipeFilter();
 

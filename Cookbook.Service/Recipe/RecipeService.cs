@@ -81,23 +81,23 @@ namespace Cookbook.Service.Recipe
                     case "cookingtime":
                         filter.CookingTime = int.Parse(context.Request.QueryString[key], CultureInfo.InvariantCulture);
                         break;
-                    case "costids":
+                    case "costid":
                         foreach (var id in context.Request.QueryString[key].Split(','))
                             filter.CostIds.Add(new Guid(id));
                         break;
-                    case "recipekindids":
+                    case "recipekindid":
                         foreach (var id in context.Request.QueryString[key].Split(','))
                             filter.RecipeKindIds.Add(new Guid(id));
                         break;
-                    case "featureids":
+                    case "featureid":
                         foreach (var id in context.Request.QueryString[key].Split(','))
                             filter.FeatureIds.Add(new Guid(id));
                         break;
-                    case "difficultyids":
+                    case "difficultyid":
                         foreach (var id in context.Request.QueryString[key].Split(','))
                             filter.DifficultyIds.Add(new Guid(id));
                         break;
-                    case "seasonids":
+                    case "seasonid":
                         foreach (var id in context.Request.QueryString[key].Split(','))
                             filter.SeasonIds.Add(new Guid(id));
                         break;

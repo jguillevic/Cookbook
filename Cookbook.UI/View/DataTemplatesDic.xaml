@@ -1,0 +1,36 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Cookbook.UI.View.DataTemplatesDic"
+    xmlns:toolsView="using:Tools.UI.View"
+    xmlns:homeViewModel="using:Cookbook.UI.ViewModel.Home"
+    xmlns:homeView="using:Cookbook.UI.View.Home"
+    xmlns:recipeViewModel="using:Cookbook.UI.ViewModel.Recipe"
+    xmlns:recipeView="using:Cookbook.UI.View.Recipe">
+
+    <toolsView:AutoDataTemplateSelector x:Key="xAutoDataTemplateSelector"/>
+
+    <DataTemplate x:DataType="homeViewModel:HomeViewModel" x:Key="xHomeViewModelDataTemplate">
+        <homeView:HomeView/>
+    </DataTemplate>
+    
+    <DataTemplate x:DataType="recipeViewModel:ListIngredientsVM" x:Key="xListIngredientsVMDataTemplate">
+        <recipeView:ListIngredientsView/>
+    </DataTemplate>
+    <DataTemplate x:DataType="recipeViewModel:ListMeasuresVM" x:Key="xListMeasuresVMDataTemplate">
+        <recipeView:ListMeasuresView/>
+    </DataTemplate>
+    <DataTemplate x:DataType="recipeViewModel:ListRecipesVM" x:Key="xListRecipesVMDataTemplate">
+        <recipeView:ListRecipesView/>
+    </DataTemplate>
+    <DataTemplate x:DataType="recipeViewModel:AddOrUpdateIngredientVM" x:Key="xAddOrUpdateIngredientVMDataTemplate">
+        <recipeView:AddOrUpdateIngredientView/>
+    </DataTemplate>
+    <DataTemplate x:DataType="recipeViewModel:AddOrUpdateMeasureVM" x:Key="xAddOrUpdateMeasureVMDataTemplate">
+        <recipeView:AddOrUpdateMeasureView/>
+    </DataTemplate>
+    <DataTemplate x:DataType="recipeViewModel:AddOrUpdateRecipeVM" x:Key="xAddOrUpdateRecipeVMDataTemplate">
+        <recipeView:AddOrUpdateRecipeView/>
+    </DataTemplate>
+
+</ResourceDictionary>

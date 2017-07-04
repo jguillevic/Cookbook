@@ -45,6 +45,7 @@
         public const string TableName = "Measure";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
     }
 
     public static class IngredientTableDescription

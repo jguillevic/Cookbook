@@ -1,11 +1,11 @@
 ﻿using System;
-using Tools.UI.ViewData;
 using System.Collections.ObjectModel;
+using Tools.UI.ViewData;
 
 namespace Cookbook.UI.ViewData.Recipe
 {
     using Entity.Recipe;
-    
+
     public class RecipeVD : ViewDataBase
     {
         public Guid Id { get; private set; }
@@ -144,7 +144,20 @@ namespace Cookbook.UI.ViewData.Recipe
 
         public ObservableCollection<RecipeIngredientVD> Ingredients { get; private set; }
 
-        public RecipeVD(Recipe recipe)
+        public RecipeVD() : base()
+        {
+            SeasonIds = new ObservableCollection<Guid>();
+            FeatureIds = new ObservableCollection<Guid>();
+            Instructions = new ObservableCollection<RecipeInstructionVD>();
+            Ingredients = new ObservableCollection<RecipeIngredientVD>();
+        }
+
+        public RecipeVD(Recipe recipe) : this()
+        {
+            SetFromEntity(recipe);
+        }
+
+        public void SetFromEntity(Recipe recipe)
         {
             Id = recipe.Id;
             Name = recipe.Name;
@@ -156,16 +169,10 @@ namespace Cookbook.UI.ViewData.Recipe
             RecipeKindId = recipe.RecipeKindId;
             UserId = recipe.UserId;
             ExternalUrl = recipe.ExternalUrl;
-            SeasonIds = new ObservableCollection<Guid>(recipe.SeasonIds);
-            FeatureIds = new ObservableCollection<Guid>(recipe.FeatureIds);
-            
-            Instructions = new ObservableCollection<RecipeInstructionVD>();
-            foreach (var instruction in recipe.Instructions)
-                Instructions.Add(new RecipeInstructionVD(instruction));
-
-            Ingredients = new ObservableCollection<RecipeIngredientVD>();
-            foreach (var ingredient in recipe.Ingredients)
-                Ingredients.Add(new RecipeIngredientVD(ingredient));
+            recipe.SeasonIds.ForEach(item => SeasonIds.Add(item));
+            recipe.FeatureIds.ForEach(item => FeatureIds.Add(item));
+            recipe.Instructions.ForEach(item => Instructions.Add(new RecipeInstructionVD(item)));
+            recipe.Ingredients.ForEach(item => Ingredients.Add(new RecipeIngredientVD(item)));
         }
 
         public Recipe GetEntity()

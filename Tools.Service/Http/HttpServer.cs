@@ -38,7 +38,7 @@ namespace Tools.Service.Http
         {
             try
             {
-                var route = context.Request.RawUrl.Split('?')[0];
+                var route = context.Request.RawUrl.ToLower().Split('?')[0];
 
                 if (_actions.ContainsKey(route))
                 {

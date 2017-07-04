@@ -36,7 +36,14 @@ namespace Cookbook.UI.ViewData.Recipe
             }
         }
 
-        public MeasureVD(Measure measure)
+        public MeasureVD() : base() { }
+
+        public MeasureVD(Measure measure) : this()
+        {
+            SetFromEntity(measure);
+        }
+
+        public void SetFromEntity(Measure measure)
         {
             Id = measure.Id;
             Name = measure.Name;

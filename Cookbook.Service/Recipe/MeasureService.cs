@@ -1,5 +1,6 @@
 ﻿using Cookbook.BLL.Recipe;
 using Cookbook.Entity.Recipe;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using Tools.Helper.Compress;
@@ -40,7 +41,14 @@ namespace Cookbook.Service.Recipe
         {
             if (context.IsAcceptGZipJson())
             {
-                var measures = _measureBLL.Load();
+                var measureIds = GetMeasureIds(context);
+
+                List<Measure> measures;
+                
+                if (measureIds.Count > 0)
+                    measures = _measureBLL.Load(new MeasureFilter { IdsToLoad = measureIds });
+                else
+                    measures = _measureBLL.Load();
 
                 using (var stream = JsonHelper.SerializeToStream(measures))
                 {
@@ -57,6 +65,25 @@ namespace Cookbook.Service.Recipe
                 // TODO : Indiquer pourquoi.
                 context.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
             }
+        }
+
+        private static List<Guid> GetMeasureIds(HttpListenerContext context)
+        {
+            var measureIds = new List<Guid>();
+
+            foreach (var key in context.Request.QueryString.AllKeys)
+            {
+                switch (key.ToLower())
+                {
+                    case "measureids":
+                        measureIds.Add(new Guid(context.Request.QueryString[key]));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return measureIds;
         }
 
         private static void Add(HttpListenerContext context)

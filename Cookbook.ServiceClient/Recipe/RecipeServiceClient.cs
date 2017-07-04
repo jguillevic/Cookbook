@@ -67,7 +67,7 @@ namespace Cookbook.ServiceClient.Recipe
                     else
                         sb.Append("&");
 
-                    sb.Append(string.Format(CultureInfo.CurrentCulture, "costIds={0}", costIds[i]));
+                    sb.Append(string.Format(CultureInfo.CurrentCulture, "costid={0}", costIds[i]));
                 }
 
                 return false;
@@ -87,7 +87,7 @@ namespace Cookbook.ServiceClient.Recipe
                     else
                         sb.Append("&");
 
-                    sb.Append(string.Format(CultureInfo.CurrentCulture, "difficultyIds={0}", difficultyIds[i]));
+                    sb.Append(string.Format(CultureInfo.CurrentCulture, "difficultyid={0}", difficultyIds[i]));
                 }
 
                 return false;
@@ -107,7 +107,7 @@ namespace Cookbook.ServiceClient.Recipe
                     else
                         sb.Append("&");
 
-                    sb.Append(string.Format(CultureInfo.CurrentCulture, "recipeKindIds={0}", recipeKindIds[i]));
+                    sb.Append(string.Format(CultureInfo.CurrentCulture, "recipekindid={0}", recipeKindIds[i]));
                 }
 
                 return false;
@@ -127,7 +127,7 @@ namespace Cookbook.ServiceClient.Recipe
                     else
                         sb.Append("&");
 
-                    sb.Append(string.Format(CultureInfo.CurrentCulture, "seasonIds={0}", seasonIds[i]));
+                    sb.Append(string.Format(CultureInfo.CurrentCulture, "seasonid={0}", seasonIds[i]));
                 }
 
                 return false;
@@ -147,7 +147,7 @@ namespace Cookbook.ServiceClient.Recipe
                     else
                         sb.Append("&");
 
-                    sb.Append(string.Format(CultureInfo.CurrentCulture, "featureIds={0}", featureIds[i]));
+                    sb.Append(string.Format(CultureInfo.CurrentCulture, "featureid={0}", featureIds[i]));
                 }
 
                 return false;
@@ -165,7 +165,7 @@ namespace Cookbook.ServiceClient.Recipe
                 else
                     sb.Append("&");
 
-                sb.Append(string.Format(CultureInfo.CurrentCulture, "cookingTime={0}", cookingTime));
+                sb.Append(string.Format(CultureInfo.CurrentCulture, "cookingtime={0}", cookingTime));
 
                 return false;
             }
@@ -182,7 +182,7 @@ namespace Cookbook.ServiceClient.Recipe
                 else
                     sb.Append("&");
 
-                sb.Append(string.Format(CultureInfo.CurrentCulture, "preparationTime={0}", prepTime));
+                sb.Append(string.Format(CultureInfo.CurrentCulture, "preparationtime={0}", prepTime));
 
                 return false;
             }

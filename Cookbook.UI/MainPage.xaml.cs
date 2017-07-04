@@ -1,9 +1,6 @@
-﻿using Cookbook.Entity.Recipe;
-using Cookbook.ServiceClient.Recipe;
-using Cookbook.UI.View.Recipe;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Cookbook.UI.ViewModel;
+using Cookbook.UI.ViewModel.Home;
+using Tools.UI.ViewModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,26 +16,18 @@ namespace Cookbook.UI
         public MainPage()
         {
             this.InitializeComponent();
+            Loaded += MainPage_Loaded;
         }
 
-        private void xIngredientButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ListIngredientsPage));
-        }
+            Loaded -= MainPage_Loaded;
 
-        private void xMeasureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ListMeasuresPage));
-        }
+            var applicationVM = new ApplicationViewModel();
 
-        private void xRecipeButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ListRecipesPage));
-        }
+            DataContext = applicationVM;
 
-        private void xMealButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-
+            applicationVM.SetCurrentViewModel(new HomeViewModel());
         }
     }
 }

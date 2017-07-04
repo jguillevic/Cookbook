@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Cookbook.Rule.Recipe
 {
@@ -7,14 +6,11 @@ namespace Cookbook.Rule.Recipe
 
     public static class RecipeRule
     {
-        public static Recipe GetInitializedRecipe()
+        public static Recipe GetDefault()
         {
             var recipe = new Recipe();
 
             recipe.Id = Guid.NewGuid();
-
-            recipe.Instructions = new List<RecipeInstruction>();
-            recipe.Ingredients = new List<RecipeIngredient>();
 
             return recipe;
         }

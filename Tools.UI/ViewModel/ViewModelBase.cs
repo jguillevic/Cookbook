@@ -1,6 +1,6 @@
 ﻿namespace Tools.UI.ViewModel
 {
-    public class ViewModelBase : BindableBase
+    public abstract class ViewModelBase : BindableBase
     {
         
     }

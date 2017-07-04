@@ -109,9 +109,12 @@
     <Compile Include="BindableBase.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewData\EntityViewData.cs" />
     <Compile Include="ViewData\ViewDataBase.cs" />
+    <Compile Include="ViewModel\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\IViewModelChanger.cs" />
+    <Compile Include="ViewModel\PageViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AutoDataTemplateSelector.cs" />
     <EmbeddedResource Include="Properties\Tools.UI2.rd.xml" />
   </ItemGroup>
   <ItemGroup>

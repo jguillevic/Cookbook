@@ -52,7 +52,14 @@ namespace Cookbook.UI.ViewData.Recipe
             }
         }
 
+        public RecipeIngredientVD() : base() { }
+
         public RecipeIngredientVD(RecipeIngredient recipeIngredient)
+        {
+            SetFromEntity(recipeIngredient);
+        }
+
+        public void SetFromEntity(RecipeIngredient recipeIngredient)
         {
             RecipeId = recipeIngredient.RecipeId;
             Order = recipeIngredient.Order;
