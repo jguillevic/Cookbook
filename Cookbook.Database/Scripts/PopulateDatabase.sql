@@ -67,3 +67,13 @@ BULK INSERT [Cookbook].[dbo].[Measure]
          ROWTERMINATOR ='\n',
 		 CODEPAGE = 'ACP'
       );
+
+-- Insertion des ingrédients.
+BULK INSERT [Cookbook].[dbo].[Ingredient]  
+   FROM N'$(DataPath)\Ingredient.csv'  
+   WITH   
+      (  
+         FIELDTERMINATOR =';',  
+         ROWTERMINATOR ='\n',
+		 CODEPAGE = 'ACP'
+      );

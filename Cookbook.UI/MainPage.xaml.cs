@@ -19,15 +19,18 @@ namespace Cookbook.UI
             Loaded += MainPage_Loaded;
         }
 
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= MainPage_Loaded;
 
-            var applicationVM = new ApplicationViewModel();
+            var cookbookAppVM = new CookbookAppVM();
 
-            DataContext = applicationVM;
+            cookbookAppVM.Initialize();
+            await cookbookAppVM.PopulateAsync();
 
-            applicationVM.SetCurrentViewModel(new HomeViewModel());
+            DataContext = cookbookAppVM;
+
+            await cookbookAppVM.SetCurrentViewModelAsync(new HomeViewModel());
         }
     }
 }

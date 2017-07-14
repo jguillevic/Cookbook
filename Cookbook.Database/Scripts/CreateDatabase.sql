@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[Cost](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
 	[Code] [nvarchar](30) NOT NULL,
+	[Order] [tinyint] NOT NULL,
 	CONSTRAINT [PK_Cost] PRIMARY KEY ([Id]))
 GO
 
@@ -24,6 +25,7 @@ CREATE TABLE [dbo].[Difficulty](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
 	[Code] [nvarchar](30) NOT NULL,
+	[Order] [tinyint] NOT NULL,
 	CONSTRAINT [PK_Difficulty] PRIMARY KEY ([Id]))
 GO
 
@@ -45,6 +47,7 @@ CREATE TABLE [dbo].[RecipeKind](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](30) NOT NULL,
 	[Code] [nvarchar](30) NOT NULL,
+	[Order] [tinyint] NOT NULL,
 	CONSTRAINT [PK_RecipeKind] PRIMARY KEY ([Id]))
 GO
 
@@ -57,15 +60,15 @@ GO
 
 CREATE TABLE [dbo].[Ingredient](
 	[Id] [uniqueidentifier] NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[NationalName] [nvarchar](200) NULL,
-	[NationalCode] [nvarchar](30) NULL,
+	[Name] [nvarchar](200) NOT NULL,
+	[Code] [nvarchar](30) NOT NULL,
 	[IngredientKindId] [uniqueidentifier] NOT NULL,
-	[Calories] [decimal](5,2) NOT NULL,
-	[Protein] [decimal](3,2) NOT NULL,
-	[Carbohydrate] [decimal](3,2) NOT NULL,
-	[Lipid] [decimal](3,2) NOT NULL,
-	[Water] [decimal](3,2) NOT NULL,
+	[Calories] [decimal](10,5) NOT NULL,
+	[Protein] [decimal](10,5) NOT NULL,
+	[Carbohydrate] [decimal](10,5) NOT NULL,
+	[Lipid] [decimal](10,5) NOT NULL,
+	[Water] [decimal](10,5) NOT NULL,
+	[Fiber] [decimal](10,5) NOT NULL,
 	CONSTRAINT [PK_Ingredient] PRIMARY KEY ([Id]))
 GO
 

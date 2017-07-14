@@ -1,7 +1,9 @@
-﻿namespace Tools.UI.ViewModel
+﻿using System.Threading.Tasks;
+
+namespace Tools.UI.ViewModel
 {
     public interface IViewModelSetter
     {
-        void SetCurrentViewModel(PageViewModel viewModel);
+        Task SetCurrentViewModelAsync(PageViewModel viewModel);
     }
 }

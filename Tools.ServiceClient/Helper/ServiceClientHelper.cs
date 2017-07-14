@@ -1,14 +1,17 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Tools.Helper.Compress;
-using Tools.Helper.Json;
+using Tools.Serializer.Json;
 
 namespace Tools.ServiceClient.Helper
 {
     public static class ServiceClientHelper
     {
-        public async static Task<T> GetGzipJsonAsync<T>(string url)
+        public async static Task<T> GetGzipJsonAsync<T>(string url, IJsonSerializer<T> serializer)
         {
             T result = default(T);
 
@@ -26,7 +29,7 @@ namespace Tools.ServiceClient.Helper
                         {
                             using (var gzip = GZipHelper.Decompress(stream))
                             {
-                                return JsonHelper.DeserializeFromStream<T>(gzip);
+                                return serializer.Deserialize(gzip);
                             }
                         }
                     }
@@ -36,11 +39,11 @@ namespace Tools.ServiceClient.Helper
             return result;
         }
 
-        public async static Task<bool> PostGzipJsonAsync<T>(string url, T value)
+        public async static Task<bool> PostGzipJsonAsync<T>(string url, IJsonSerializer<T> serializer, T value)
         {
             using (var httpClient = new HttpClient())
             {
-                using (var jsonStream = JsonHelper.SerializeToStream(value))
+                using (var jsonStream = serializer.Serialize(value))
                 {
                     using (var compStream = GZipHelper.Compress(jsonStream))
                     {
@@ -59,11 +62,11 @@ namespace Tools.ServiceClient.Helper
             }
         }
 
-        public async static Task<bool> PutGzipJsonAsync<T>(string url, T value)
+        public async static Task<bool> PutGzipJsonAsync<T>(string url, IJsonSerializer<T> serializer, T value)
         {
             using (var httpClient = new HttpClient())
             {
-                using (var jsonStream = JsonHelper.SerializeToStream(value))
+                using (var jsonStream = serializer.Serialize(value))
                 {
                     using (var compStream = GZipHelper.Compress(jsonStream))
                     {
@@ -80,6 +83,61 @@ namespace Tools.ServiceClient.Helper
                     }
                 }
             }
+        }
+
+        public static bool AppendQueries<T>(List<T> values, Action<T> action, bool isFirstParam, StringBuilder sb)
+        {
+            if (values.Count > 0)
+            {
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (i == 0 && isFirstParam)
+                        sb.Append("?");
+                    else
+                        sb.Append("&");
+
+                    action(values[i]);
+                }
+
+                return false;
+            }
+
+            return isFirstParam;
+        }
+
+        public static bool AppendQueries<T>(Nullable<T> value, Action<Nullable<T>> action, bool isFirstParam, StringBuilder sb)
+            where T : struct
+        {
+            if (value.HasValue)
+            {
+                if (isFirstParam)
+                    sb.Append("?");
+                else
+                    sb.Append("&");
+
+                action(value);
+
+                return false;
+            }
+
+            return isFirstParam;
+        }
+
+        public static bool AppendQueries(string value, Action<string> action, bool isFirstParam, StringBuilder sb)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                if (isFirstParam)
+                    sb.Append("?");
+                else
+                    sb.Append("&");
+
+                action(value);
+
+                return false;
+            }
+
+            return isFirstParam;
         }
     }
 }

@@ -17,19 +17,19 @@ namespace Cookbook.UI.ViewModel.Home
             GoToListRecipesCommand = new DelegateCommand(GoToListRecipesCommandExecute);
         }
 
-        private void GoToListIngredientsCommandExecute(object obj)
+        private async void GoToListIngredientsCommandExecute(object obj)
         {
-            Setter.SetCurrentViewModel(new ListIngredientsVM());
+            await Setter.SetCurrentViewModelAsync(new ListIngredientsVM());
         }
 
-        private void GoToListMeasuresCommandExecute(object obj)
+        private async void GoToListMeasuresCommandExecute(object obj)
         {
-            Setter.SetCurrentViewModel(new ListMeasuresVM());
+            await Setter.SetCurrentViewModelAsync(new ListMeasuresVM());
         }
 
-        private void GoToListRecipesCommandExecute(object obj)
+        private async void GoToListRecipesCommandExecute(object obj)
         {
-            Setter.SetCurrentViewModel(new ListRecipesVM());
+            await Setter.SetCurrentViewModelAsync(new ListRecipesVM());
         }
     }
 }

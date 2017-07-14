@@ -4,6 +4,7 @@ using System.Text;
 namespace Tools.DAL.QueryBuilder.Clause.OrderBy
 {
     using Enum;
+    using System.Globalization;
 
     /// <summary>
     /// Permet la construction d'un élément de la clause ORDER BY.
@@ -42,7 +43,7 @@ namespace Tools.DAL.QueryBuilder.Clause.OrderBy
         /// <param name="sb"><see cref="StringBuilder"/> à compléter par la méthode.</param>
         public void AppendQuery(StringBuilder sb)
         {
-            sb.Append(ColumnName);
+            sb.AppendFormat(CultureInfo.CurrentCulture, "[{0}]",  ColumnName);
 
             QueryBuilderEnumHelper.AppendSorting(Sorting, sb);
         }

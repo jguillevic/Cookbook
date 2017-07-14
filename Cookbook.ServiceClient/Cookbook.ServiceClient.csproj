@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cookbook.Entity\Cookbook.Entity.csproj" />
+    <ProjectReference Include="..\Cookbook.Serializer\Cookbook.Serializer.csproj" />
     <ProjectReference Include="..\Tools.ServiceClient\Tools.ServiceClient.csproj" />
   </ItemGroup>
 

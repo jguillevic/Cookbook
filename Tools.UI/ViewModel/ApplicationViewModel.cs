@@ -1,6 +1,9 @@
-﻿namespace Tools.UI.ViewModel
+﻿using System.Threading.Tasks;
+using Tools.UI.DataProvider;
+
+namespace Tools.UI.ViewModel
 {
-    public class ApplicationViewModel : ViewModelBase, IViewModelSetter
+    public abstract class ApplicationViewModel : ViewModelBase, IViewModelSetter
     {
         private PageViewModel _currentViewModel;
         public PageViewModel CurrentViewModel
@@ -16,11 +19,26 @@
             }
         }
 
-        public void SetCurrentViewModel(PageViewModel pageViewModel)
+        protected DataProviderManager DataProviderManager { get; private set; }
+
+        public ApplicationViewModel()
+        {
+            DataProviderManager = new DataProviderManager();
+        }
+
+        public virtual void Initialize() { }
+
+        public async Task PopulateAsync()
+        {
+            await DataProviderManager.PopulateAsync();
+        }
+
+        public async Task SetCurrentViewModelAsync(PageViewModel pageViewModel)
         {
             pageViewModel.SetViewModelSetter(this);
+            pageViewModel.SetDataProviderManager(DataProviderManager);
             pageViewModel.Initialize();
-            pageViewModel.Populate();
+            await pageViewModel.PopulateAsync();
 
             CurrentViewModel = pageViewModel;
         }

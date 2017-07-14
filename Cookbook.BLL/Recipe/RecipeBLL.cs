@@ -14,9 +14,9 @@ namespace Cookbook.BLL.Recipe
             _recipeDAL = new RecipeDAL();
         }
 
-        public List<Recipe> Load(RecipeFilter filter)
+        public List<Recipe> Load(RecipeFilter filter, List<string> fields)
         {
-            return _recipeDAL.Load(filter);
+            return _recipeDAL.Load(filter, fields);
         }
 
         public void Add(IEnumerable<Recipe> recipes)

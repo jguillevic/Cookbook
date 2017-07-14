@@ -17,7 +17,7 @@
             <AppBarButton Name="xHome" Icon="Home" Label="Accueil" Command="{Binding GoToHomeCommand}"/>
         </CommandBar>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Recipes}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Recipes}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <StackPanel Orientation="Horizontal">

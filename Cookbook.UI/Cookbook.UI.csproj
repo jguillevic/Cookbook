@@ -97,13 +97,29 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\Recipe\GuidToCostVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToDifficultyVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToIngredientKindVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToRecipeKindVDConverter.cs" />
+    <Compile Include="DataProvider\DataProviderKeys.cs" />
+    <Compile Include="DataProvider\Recipe\CostDataProvider.cs" />
+    <Compile Include="DataProvider\Recipe\DifficultyDataProvider.cs" />
+    <Compile Include="DataProvider\Recipe\FeatureDataProvider.cs" />
+    <Compile Include="DataProvider\Recipe\IngredientKindDataProvider.cs" />
+    <Compile Include="DataProvider\Recipe\RecipeKindDataProvider.cs" />
+    <Compile Include="DataProvider\Recipe\SeasonDataProvider.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewData\Recipe\CostVD.cs" />
+    <Compile Include="ViewData\Recipe\DifficultyVD.cs" />
+    <Compile Include="ViewData\Recipe\IngredientKindVD.cs" />
     <Compile Include="ViewData\Recipe\IngredientSummaryVD.cs" />
     <Compile Include="ViewData\Recipe\IngredientVD.cs" />
     <Compile Include="ViewData\Recipe\MeasureSummaryVD.cs" />
     <Compile Include="ViewData\Recipe\MeasureVD.cs" />
+    <Compile Include="ViewData\Recipe\RecipeKindVD.cs" />
+    <Compile Include="ViewModel\CookbookAppVM.cs" />
     <Compile Include="ViewModel\Home\HomeViewModel.cs" />
     <Compile Include="View\DataTemplatesDic.cs" />
     <Compile Include="View\Home\HomeView.xaml.cs">
@@ -139,6 +155,7 @@
     <Compile Include="View\Recipe\ListRecipesView.xaml.cs">
       <DependentUpon>ListRecipesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Recipe\OnlyIntegerTBExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -216,6 +233,10 @@
     <ProjectReference Include="..\Cookbook.ServiceClient\Cookbook.ServiceClient.csproj">
       <Project>{9e91a341-6a21-4a35-91e9-2d0dd5332d2b}</Project>
       <Name>Cookbook.ServiceClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.Component\Tools.Component.csproj">
+      <Project>{0737b80e-93c4-4015-9553-9970be60a327}</Project>
+      <Name>Tools.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tools.UI\Tools.UI.csproj">
       <Project>{19CE9F2D-4CAF-453B-B764-622E142C3AB3}</Project>

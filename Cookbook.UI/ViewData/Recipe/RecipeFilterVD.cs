@@ -1,6 +1,7 @@
 ﻿using Cookbook.Entity.Recipe;
 using System;
 using System.Collections.ObjectModel;
+using Tools.UI.Common;
 using Tools.UI.ViewData;
 
 namespace Cookbook.UI.ViewData.Recipe
@@ -49,22 +50,22 @@ namespace Cookbook.UI.ViewData.Recipe
             }
         }
 
-        public ObservableCollection<Guid> CostIds { get; private set; }
-        public ObservableCollection<Guid> DifficultyIds { get; private set; }
-        public ObservableCollection<Guid> FeatureIds { get; private set; }
-        public ObservableCollection<Guid> RecipeKindIds { get; private set; }
-        public ObservableCollection<Guid> SeasonIds { get; private set; }
+        public ObservableRangeCollection<Guid> CostIds { get; private set; }
+        public ObservableRangeCollection<Guid> DifficultyIds { get; private set; }
+        public ObservableRangeCollection<Guid> FeatureIds { get; private set; }
+        public ObservableRangeCollection<Guid> RecipeKindIds { get; private set; }
+        public ObservableRangeCollection<Guid> SeasonIds { get; private set; }
         
         public RecipeFilterVD(RecipeFilter filter)
         {
             Name = filter.Name;
             PreparationTime = filter.PreparationTime;
             CookingTime = filter.CookingTime;
-            CostIds = new ObservableCollection<Guid>(filter.CostIds);
-            DifficultyIds = new ObservableCollection<Guid>(filter.DifficultyIds);
-            FeatureIds = new ObservableCollection<Guid>(filter.FeatureIds);
-            RecipeKindIds = new ObservableCollection<Guid>(filter.RecipeKindIds);
-            SeasonIds = new ObservableCollection<Guid>(filter.SeasonIds);
+            CostIds = new ObservableRangeCollection<Guid>(filter.CostIds);
+            DifficultyIds = new ObservableRangeCollection<Guid>(filter.DifficultyIds);
+            FeatureIds = new ObservableRangeCollection<Guid>(filter.FeatureIds);
+            RecipeKindIds = new ObservableRangeCollection<Guid>(filter.RecipeKindIds);
+            SeasonIds = new ObservableRangeCollection<Guid>(filter.SeasonIds);
         }
 
         public RecipeFilter GetEntity()

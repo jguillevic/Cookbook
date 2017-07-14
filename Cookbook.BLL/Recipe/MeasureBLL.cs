@@ -1,6 +1,5 @@
 ﻿using Cookbook.DAL.Recipe;
 using Cookbook.Entity.Recipe;
-using System;
 using System.Collections.Generic;
 
 namespace Cookbook.BLL.Recipe
@@ -14,14 +13,9 @@ namespace Cookbook.BLL.Recipe
             _measureDAL = new MeasureDAL();
         }
 
-        public List<Measure> Load()
+        public List<Measure> Load(MeasureFilter filter, List<string> fields)
         {
-            return _measureDAL.Load();
-        }
-
-        public List<Measure> Load(MeasureFilter filter)
-        {
-            return _measureDAL.Load(filter);
+            return _measureDAL.Load(filter, fields);
         }
 
         public void Add(IEnumerable<Measure> measures)

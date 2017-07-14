@@ -10,6 +10,7 @@ using Tools.Service.Http;
 namespace Cookbook.Service.Recipe
 {
     using Entity.Recipe;
+    using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
     public static class RecipeService
     {
@@ -43,9 +44,10 @@ namespace Cookbook.Service.Recipe
         {
             if (context.IsAcceptGZipJson())
             {
-                var filter = GetRecipeFilter(context);
+                var filter = GetFilter(context);
+                var fields = GetFields(context);
 
-                var recipes = _recipeBLL.Load(filter);
+                var recipes = _recipeBLL.Load(filter, fields);
 
                 using (var stream = JsonHelper.SerializeToStream(recipes))
                 {
@@ -64,7 +66,7 @@ namespace Cookbook.Service.Recipe
             }
         }
 
-        private static RecipeFilter GetRecipeFilter(HttpListenerContext context)
+        private static RecipeFilter GetFilter(HttpListenerContext context)
         {
             var filter = new RecipeFilter();
 
@@ -73,7 +75,7 @@ namespace Cookbook.Service.Recipe
                 switch (key.ToLower())
                 {
                     case "name":
-                        filter.Name = context.Request.QueryString[key];
+                        filter.Name = context.Request.QueryString[key].ToLower();
                         break;
                     case "preparationtime":
                         filter.PreparationTime = int.Parse(context.Request.QueryString[key], CultureInfo.InvariantCulture);
@@ -107,6 +109,29 @@ namespace Cookbook.Service.Recipe
             }
 
             return filter;
+        }
+
+        private static List<string> GetFields(HttpListenerContext context)
+        {
+            var fields = new List<string>();
+
+            foreach (var key in context.Request.QueryString.AllKeys)
+            {
+                switch (key.ToLower())
+                {
+                    case "field":
+                        foreach (var field in context.Request.QueryString[key].Split(','))
+                            fields.Add(field.ToLower());
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (fields.Count > 0)
+                return fields;
+            else
+                return new List<string>(RecipeEntityDescription.AllLower);
         }
 
         private static void Add(HttpListenerContext context)

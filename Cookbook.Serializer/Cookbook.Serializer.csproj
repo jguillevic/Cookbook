@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cookbook.Entity\Cookbook.Entity.csproj" />
+    <ProjectReference Include="..\Tools.Serializer\Tools.Serializer.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,21 +1,20 @@
 ﻿using Cookbook.BLL.Recipe;
-using Cookbook.Entity.Recipe;
-using System;
+using Cookbook.Serializer.Recipe.Json;
 using System.Collections.Generic;
 using System.Net;
 using Tools.Helper.Compress;
-using Tools.Helper.Json;
 using Tools.Service.Http;
+using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
 namespace Cookbook.Service.Recipe
 {
-    public class MeasureSummaryService
+    public static class IngredientKindService
     {
-        private static MeasureSummaryBLL _measureSummaryBLL;
+        private static IngredientKindBLL _ingredientKindBLL;
 
-        static MeasureSummaryService()
+        static IngredientKindService()
         {
-            _measureSummaryBLL = new MeasureSummaryBLL();
+            _ingredientKindBLL = new IngredientKindBLL();
         }
 
         public static void Process(HttpListenerContext context)
@@ -35,16 +34,14 @@ namespace Cookbook.Service.Recipe
         {
             if (context.IsAcceptGZipJson())
             {
-                var ids = GetMeasureSummaryIds(context);
+                var fields = GetFields(context);
 
-                List<MeasureSummary> measureSummaries;
+                var ingredientKinds = _ingredientKindBLL.Load(fields);
 
-                if (ids.Count > 0)
-                    measureSummaries = _measureSummaryBLL.Load(new MeasureFilter { IdsToLoad = ids });
-                else
-                    measureSummaries = _measureSummaryBLL.Load();
+                var serializer = new IngredientKindJsonSerializer();
+                serializer.SetFields(fields);
 
-                using (var stream = JsonHelper.SerializeToStream(measureSummaries))
+                using (var stream = serializer.Serialize(ingredientKinds))
                 {
                     using (var gzip = GZipHelper.Compress(stream))
                     {
@@ -61,23 +58,27 @@ namespace Cookbook.Service.Recipe
             }
         }
 
-        private static List<Guid> GetMeasureSummaryIds(HttpListenerContext context)
+        private static List<string> GetFields(HttpListenerContext context)
         {
-            var measureIds = new List<Guid>();
+            var fields = new List<string>();
 
             foreach (var key in context.Request.QueryString.AllKeys)
             {
                 switch (key.ToLower())
                 {
-                    case "id":
-                        measureIds.Add(new Guid(context.Request.QueryString[key]));
+                    case "field":
+                        foreach (var field in context.Request.QueryString[key].Split(','))
+                            fields.Add(field.ToLower());
                         break;
                     default:
                         break;
                 }
             }
 
-            return measureIds;
+            if (fields.Count > 0)
+                return fields;
+            else
+                return new List<string>(IngredientKindEntityDescription.AllLower);
         }
     }
 }

@@ -6,6 +6,7 @@
         public const string Id = "Id";
         public const string Name = "Name";
         public const string Code = "Code";
+        public const string Order = "Order";
     }
 
     public static class DifficultyTableDescription
@@ -14,6 +15,7 @@
         public const string Id = "Id";
         public const string Name = "Name";
         public const string Code = "Code";
+        public const string Order = "Order";
     }
 
     public static class FeatureTableDescription
@@ -38,6 +40,7 @@
         public const string Id = "Id";
         public const string Name = "Name";
         public const string Code = "Code";
+        public const string Order = "Order";
     }
 
     public static class MeasureTableDescription
@@ -48,11 +51,27 @@
         public const string Code = "Code";
     }
 
+    public static class IngredientKindTableDescription
+    {
+        public const string TableName = "IngredientKind";
+        public const string Id = "Id";
+        public const string Name = "Name";
+        public const string Code = "Code";
+    }
+
     public static class IngredientTableDescription
     {
         public const string TableName = "Ingredient";
         public const string Id = "Id";
         public const string Name = "Name";
+        public const string Code = "Code";
+        public const string IngredientKindId = "IngredientKindId";
+        public const string Calories = "Calories";
+        public const string Protein = "Protein";
+        public const string Carbohydrate = "Carbohydrate";
+        public const string Lipid = "Lipid";
+        public const string Water = "Water";
+        public const string Fiber = "Fiber";
     }
 
     public static class RecipeTableDescription

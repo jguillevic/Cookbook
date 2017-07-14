@@ -10,9 +10,11 @@ using Tools.DAL.QueryBuilder.Enum;
 namespace Cookbook.DAL.Recipe
 {
     using Entity.Recipe;
+    using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
     public class RecipeDAL : DbDAL<SqlConnectionProvider>
     {
+        private List<string> _fields;
         private RecipeIngredientDAL _recipeIngredientDAL;
         private RecipeInstructionDAL _recipeInstructionDAL;
         private RecipeSeasonDAL _recipeSeasonDAL;
@@ -26,35 +28,51 @@ namespace Cookbook.DAL.Recipe
             _recipeFeatureDAL = new RecipeFeatureDAL();
         }
 
-        public List<Recipe> Load(RecipeFilter filter)
+        public List<Recipe> Load(RecipeFilter filter, List<string> fields)
         {
+            _fields = fields;
+
             List<Recipe> recipes = null;
 
             using (var scope = TransactionScopeHelper.GetTransactionScope())
             {
-                recipes = LoadRecipes(filter);
+                recipes = LoadRecipes(filter, _fields);
 
                 if (recipes != null && recipes.Count > 0)
                 {
                     var recipeIds = recipes.Select(item => item.Id);
 
-                    var recipeIngredients = _recipeIngredientDAL.Load(recipeIds);
-                    var recipeInstructions = _recipeInstructionDAL.Load(recipeIds);
-                    var recipeSeasons = _recipeSeasonDAL.Load(recipeIds);
-                    var recipeFeatures = _recipeFeatureDAL.Load(recipeIds);
+                    HashSet<RecipeIngredient> recipeIngredients = null;
+                    if (_fields.Contains(RecipeEntityDescription.Ingredients.ToLower()))
+                        recipeIngredients = _recipeIngredientDAL.Load(recipeIds);
+                    HashSet<RecipeInstruction> recipeInstructions = null;
+                    if (_fields.Contains(RecipeEntityDescription.Instructions.ToLower()))
+                        recipeInstructions = _recipeInstructionDAL.Load(recipeIds);
+                    HashSet<RecipeSeason> recipeSeasons = null;
+                    if (_fields.Contains(RecipeEntityDescription.SeasonIds.ToLower()))
+                        recipeSeasons = _recipeSeasonDAL.Load(recipeIds);
+                    HashSet<RecipeFeature> recipeFeatures = null;
+                    if (_fields.Contains(RecipeEntityDescription.FeatureIds.ToLower()))
+                        recipeFeatures = _recipeFeatureDAL.Load(recipeIds);
 
                     foreach (var recipe in recipes)
                     {
-                        recipe.Ingredients = new List<RecipeIngredient>(recipeIngredients.Where(item => item.RecipeId == recipe.Id));
-                        recipe.Instructions = new List<RecipeInstruction>(recipeInstructions.Where(item => item.RecipeId == recipe.Id));
-
-                        var seasonIds = recipeSeasons.Where(item => item.RecipeId == recipe.Id).Select(item => item.SeasonId);
-                        if (seasonIds.Any())
-                            recipe.SeasonIds = new List<Guid>(seasonIds);
-
-                        var featureIds = recipeFeatures.Where(item => item.RecipeId == recipe.Id).Select(item => item.FeatureId);
-                        if (featureIds.Any())
-                            recipe.FeatureIds = new List<Guid>(featureIds);
+                        if (recipeIngredients != null)
+                            recipe.Ingredients = new List<RecipeIngredient>(recipeIngredients.Where(item => item.RecipeId == recipe.Id));
+                        if (recipeInstructions != null)
+                            recipe.Instructions = new List<RecipeInstruction>(recipeInstructions.Where(item => item.RecipeId == recipe.Id));
+                        if (recipeSeasons != null)
+                        {
+                            var seasonIds = recipeSeasons.Where(item => item.RecipeId == recipe.Id).Select(item => item.SeasonId);
+                            if (seasonIds.Any())
+                                recipe.SeasonIds = new List<Guid>(seasonIds);
+                        }
+                        if (recipeFeatures != null)
+                        {
+                            var featureIds = recipeFeatures.Where(item => item.RecipeId == recipe.Id).Select(item => item.FeatureId);
+                            if (featureIds.Any())
+                                recipe.FeatureIds = new List<Guid>(featureIds);
+                        }
                     }
                 }
 
@@ -64,22 +82,13 @@ namespace Cookbook.DAL.Recipe
             return recipes;
         }
 
-        private List<Recipe> LoadRecipes(RecipeFilter filter)
+        private List<Recipe> LoadRecipes(RecipeFilter filter, List<string> fields)
         {
             var sqb = new SelectQueryBuilder();
 
             sqb.AddDistinct();
 
-            sqb.AddQueriedField(RecipeTableDescription.Id);
-            sqb.AddQueriedField(RecipeTableDescription.Name);
-            sqb.AddQueriedField(RecipeTableDescription.Description);
-            sqb.AddQueriedField(RecipeTableDescription.PreparationTime);
-            sqb.AddQueriedField(RecipeTableDescription.CookingTime);
-            sqb.AddQueriedField(RecipeTableDescription.CostId);
-            sqb.AddQueriedField(RecipeTableDescription.DifficultyId);
-            sqb.AddQueriedField(RecipeTableDescription.RecipeKindId);
-            sqb.AddQueriedField(RecipeTableDescription.ExternalUrl);
-            sqb.AddQueriedField(RecipeTableDescription.UserId);
+            AddQueriedFields(sqb);
 
             sqb.AddFrom(RecipeTableDescription.TableName);
             sqb.AddJoin(JoinType.LeftJoin, RecipeTableDescription.TableName, new List<string> { RecipeTableDescription.Id }, Comparison.Equals, RecipeSeasonTableDescription.TableName, new List<string> { RecipeSeasonTableDescription.RecipeId });
@@ -97,25 +106,59 @@ namespace Cookbook.DAL.Recipe
 
             sqb.AddOrderBy(RecipeTableDescription.Id, Sorting.Ascending);
 
-            var recipes = sqb.Read <Recipe, List<Recipe>>(DefaultConnectProvider, GetRecipeFromIDataRecord);
-            
+            var recipes = sqb.Read<Recipe, List<Recipe>>(DefaultConnectProvider, GetRecipeFromIDataRecord);
+
             return recipes;
+        }
+
+        private void AddQueriedFields(SelectQueryBuilder sqb)
+        {
+            if (_fields.Contains(RecipeEntityDescription.Id.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.Id);
+            if (_fields.Contains(RecipeEntityDescription.Name.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.Name);
+            if (_fields.Contains(RecipeEntityDescription.Description.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.Description);
+            if (_fields.Contains(RecipeEntityDescription.PreparationTime.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.PreparationTime);
+            if (_fields.Contains(RecipeEntityDescription.CookingTime.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.CookingTime);
+            if (_fields.Contains(RecipeEntityDescription.CostId.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.CostId);
+            if (_fields.Contains(RecipeEntityDescription.DifficultyId.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.DifficultyId);
+            if (_fields.Contains(RecipeEntityDescription.RecipeKindId.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.RecipeKindId);
+            if (_fields.Contains(RecipeEntityDescription.ExternalUrl.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.ExternalUrl);
+            if (_fields.Contains(RecipeEntityDescription.UserId.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.UserId);
         }
 
         private Recipe GetRecipeFromIDataRecord(IDataRecord dataRecord)
         {
             var recipe = new Recipe();
 
-            recipe.Id = dataRecord.GetGuid(RecipeTableDescription.Id);
-            recipe.Name = dataRecord.GetString(RecipeTableDescription.Name);
-            recipe.Description = dataRecord.GetString(RecipeTableDescription.Description);
-            recipe.PreparationTime = dataRecord.GetInt32(RecipeTableDescription.PreparationTime);
-            recipe.CookingTime = dataRecord.GetInt32(RecipeTableDescription.CookingTime);
-            recipe.CostId = dataRecord.GetGuid(RecipeTableDescription.CostId);
-            recipe.DifficultyId = dataRecord.GetGuid(RecipeTableDescription.DifficultyId);
-            recipe.RecipeKindId = dataRecord.GetGuid(RecipeTableDescription.RecipeKindId);
-            recipe.ExternalUrl = dataRecord.GetNullableString(RecipeTableDescription.ExternalUrl);
-            recipe.UserId = dataRecord.GetNullableGuid(RecipeTableDescription.UserId);
+            if (_fields.Contains(RecipeEntityDescription.Id.ToLower()))
+                recipe.Id = dataRecord.GetGuid(RecipeTableDescription.Id);
+            if (_fields.Contains(RecipeEntityDescription.Name.ToLower()))
+                recipe.Name = dataRecord.GetString(RecipeTableDescription.Name);
+            if (_fields.Contains(RecipeEntityDescription.Description.ToLower()))
+                recipe.Description = dataRecord.GetString(RecipeTableDescription.Description);
+            if (_fields.Contains(RecipeEntityDescription.PreparationTime.ToLower()))
+                recipe.PreparationTime = dataRecord.GetInt32(RecipeTableDescription.PreparationTime);
+            if (_fields.Contains(RecipeEntityDescription.CookingTime.ToLower()))
+                recipe.CookingTime = dataRecord.GetInt32(RecipeTableDescription.CookingTime);
+            if (_fields.Contains(RecipeEntityDescription.CostId.ToLower()))
+                recipe.CostId = dataRecord.GetGuid(RecipeTableDescription.CostId);
+            if (_fields.Contains(RecipeEntityDescription.DifficultyId.ToLower()))
+                recipe.DifficultyId = dataRecord.GetGuid(RecipeTableDescription.DifficultyId);
+            if (_fields.Contains(RecipeEntityDescription.RecipeKindId.ToLower()))
+                recipe.RecipeKindId = dataRecord.GetGuid(RecipeTableDescription.RecipeKindId);
+            if (_fields.Contains(RecipeEntityDescription.ExternalUrl.ToLower()))
+                recipe.ExternalUrl = dataRecord.GetNullableString(RecipeTableDescription.ExternalUrl);
+            if (_fields.Contains(RecipeEntityDescription.UserId.ToLower()))
+                recipe.UserId = dataRecord.GetNullableGuid(RecipeTableDescription.UserId);
 
             return recipe;
         }

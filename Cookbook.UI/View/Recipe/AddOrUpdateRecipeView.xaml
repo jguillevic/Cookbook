@@ -1,8 +1,16 @@
 ﻿<UserControl
     x:Class="Cookbook.UI.View.Recipe.AddOrUpdateRecipeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tbExt="using:Tools.Component.Extension.TextBox"
+    xmlns:recipeConverter="using:Cookbook.UI.Converter.Recipe">
 
+    <UserControl.Resources>
+        <recipeConverter:GuidToCostVDConverter x:Key="xGuidToCostVDConverter" Costs="{Binding Costs}"/>
+        <recipeConverter:GuidToDifficultyVDConverter x:Key="xGuidToDifficultyVDConverter" Difficulties="{Binding Difficulties}"/>
+        <recipeConverter:GuidToRecipeKindVDConverter x:Key="xGuidToRecipeKindVDConverter" RecipeKinds="{Binding RecipeKinds}"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -34,16 +42,16 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Nom :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Item.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5"/>
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Temps de préparation (min) :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Name="xPrepTimeTextBlock" Text="{Binding PreparationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Item.PreparationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" tbExt:OnlyIntegerTBExt.OnlyInteger="True" MaxLength="3" FontSize="20" Margin="5 5 10 5"/>
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Temps de cuisson (min) :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Name="xCookTimeTextBlock" Text="{Binding CookingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Item.CookingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" tbExt:OnlyIntegerTBExt.OnlyInteger="True" MaxLength="3" FontSize="20" Margin="5 5 10 5"/>
 
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Coût :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Costs}" SelectedItem="{Binding Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5" Width="150">
+            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Costs}" SelectedItem="{Binding Item.CostId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource xGuidToCostVDConverter}}" FontSize="20" Margin="5 5 10 5" Width="500" Height="40">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <StackPanel>
@@ -54,7 +62,7 @@
             </ComboBox>
 
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Difficulté :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Difficulties}" SelectedItem="{Binding Difficulty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5" Width="150">
+            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Difficulties}" SelectedItem="{Binding Item.DifficultyId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource xGuidToDifficultyVDConverter}}" FontSize="20" Margin="5 5 10 5" Width="500" Height="40">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <StackPanel>
@@ -65,7 +73,7 @@
             </ComboBox>
 
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Type :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding RecipeKinds}" SelectedItem="{Binding RecipeKind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5" Width="150">
+            <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding RecipeKinds}" SelectedItem="{Binding Item.RecipeKindId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource xGuidToRecipeKindVDConverter}}" FontSize="20" Margin="5 5 10 5" Width="500" Height="40">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <StackPanel>
@@ -90,7 +98,7 @@
             </StackPanel>
 
             <TextBlock Grid.Row="8" Grid.Column="0" Text="Description :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Item.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Margin="5 5 10 5"/>
 
             <TextBlock Grid.Row="9" Grid.Column="0" Text="Instructions :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="20"/>
             <Grid Grid.Row="9" Grid.Column="1">
@@ -103,7 +111,7 @@
                     <Button Name="xAddButton" Content="+" Margin="5 5 5 5" Height="40" Width="40"/>
                     <Button Name="xDeleteButton" Content="-" Margin="5 5 0 5" Height="40" Width="40"/>
                 </StackPanel>
-                <ListView Grid.Row="1" ItemsSource="{Binding Instructions}" FontSize="20" Margin="5 5 10 5">
+                <ListView Grid.Row="1" ItemsSource="{Binding Item.Instructions}" FontSize="20" Margin="5 5 10 5">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
                             <StackPanel Orientation="Horizontal">

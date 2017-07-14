@@ -1,10 +1,6 @@
 ﻿using Cookbook.DAL.Recipe;
 using Cookbook.Entity.Recipe;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cookbook.BLL.Recipe
 {
@@ -17,9 +13,9 @@ namespace Cookbook.BLL.Recipe
             _featureDAL = new FeatureDAL();
         }
 
-        public List<Feature> Load()
+        public List<Feature> Load(List<string> fields)
         {
-            return _featureDAL.Load();
+            return _featureDAL.Load(fields);
         }
     }
 }

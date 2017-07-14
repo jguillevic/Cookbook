@@ -1,23 +1,22 @@
 ﻿using Cookbook.DAL.Database;
 using Cookbook.Entity.Recipe;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using Tools.DAL.Database;
 using Tools.DAL.QueryBuilder;
 using Tools.DAL.QueryBuilder.Enum;
+using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
 namespace Cookbook.DAL.Recipe
 {
     public class MeasureDAL : DbDAL<SqlConnectionProvider>
     {
-        public List<Measure> Load()
-        {
-            return Load(new MeasureFilter());
-        }
+        private List<string> _fields;
 
-        public List<Measure> Load(MeasureFilter filter)
+        public List<Measure> Load(MeasureFilter filter, List<string> fields)
         {
+            _fields = fields;
+
             var sqb = new SelectQueryBuilder();
 
             AddQueriedFields(sqb);
@@ -29,17 +28,22 @@ namespace Cookbook.DAL.Recipe
 
             var measures = sqb.Read<Measure, List<Measure>>(DefaultConnectProvider, GetMeasureFromIDataRecord);
 
+            _fields = null;
+
             return measures;
         }
 
-        private static void AddQueriedFields(SelectQueryBuilder sqb)
+        private void AddQueriedFields(SelectQueryBuilder sqb)
         {
-            sqb.AddQueriedField(MeasureTableDescription.Id);
-            sqb.AddQueriedField(MeasureTableDescription.Name);
-            sqb.AddQueriedField(MeasureTableDescription.Code);
+            if (_fields.Contains(MeasureEntityDescription.Id.ToLower()))
+                sqb.AddQueriedField(MeasureTableDescription.Id);
+            if (_fields.Contains(MeasureEntityDescription.Name.ToLower()))
+                sqb.AddQueriedField(MeasureTableDescription.Name);
+            if (_fields.Contains(MeasureEntityDescription.Code.ToLower()))
+                sqb.AddQueriedField(MeasureTableDescription.Code);
         }
 
-        private static void AddFrom(SelectQueryBuilder sqb)
+        private void AddFrom(SelectQueryBuilder sqb)
         {
             sqb.AddFrom(MeasureTableDescription.TableName);
         }
@@ -48,9 +52,12 @@ namespace Cookbook.DAL.Recipe
         {
             var measure = new Measure();
 
-            measure.Id = dataRecord.GetGuid(MeasureTableDescription.Id);
-            measure.Name = dataRecord.GetString(MeasureTableDescription.Name);
-            measure.Code = dataRecord.GetString(MeasureTableDescription.Code);
+            if (_fields.Contains(MeasureEntityDescription.Id.ToLower()))
+                measure.Id = dataRecord.GetGuid(MeasureTableDescription.Id);
+            if (_fields.Contains(MeasureEntityDescription.Name.ToLower()))
+                measure.Name = dataRecord.GetString(MeasureTableDescription.Name);
+            if (_fields.Contains(MeasureEntityDescription.Code.ToLower()))
+                measure.Code = dataRecord.GetString(MeasureTableDescription.Code);
 
             return measure;
         }

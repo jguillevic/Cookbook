@@ -1,14 +1,12 @@
 ﻿{
   "BaseUrl": "http://localhost:51875/",
   "RecipeRoute": "/api/v1/recipes",
-  "RecipeSummaryRoute": "/api/v1/recipes/summary",
   "CostRoute": "/api/v1/costs",
   "DifficultyRoute": "/api/v1/difficulties",
   "RecipeKindRoute": "/api/v1/recipekinds",
   "SeasonRoute": "/api/v1/seasons",
   "FeatureRoute": "/api/v1/features",
+  "IngredientKindRoute": "/api/v1/ingredientkinds",
   "IngredientRoute": "/api/v1/ingredients",
-  "IngredientSummaryRoute": "/api/v1/ingredients/summary",
-  "MeasureRoute": "/api/v1/measures",
-  "MeasureSummaryRoute": "/api/v1/measures/summary"
+  "MeasureRoute": "/api/v1/measures"
 }

@@ -13,9 +13,9 @@ namespace Cookbook.BLL.Recipe
             _difficultyDAL = new DifficultyDAL();
         }
 
-        public List<Difficulty> Load()
+        public List<Difficulty> Load(List<string> fields)
         {
-            return _difficultyDAL.Load();
+            return _difficultyDAL.Load(fields);
         }
     }
 }

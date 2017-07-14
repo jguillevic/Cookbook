@@ -1,8 +1,13 @@
 ﻿<UserControl
     x:Class="Cookbook.UI.View.Recipe.AddOrUpdateIngredientView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:recipeConverter="using:Cookbook.UI.Converter.Recipe">
 
+    <UserControl.Resources>
+        <recipeConverter:GuidToIngredientKindVDConverter x:Key="xGuidToIngredientKindVDConverter" IngredientKinds="{Binding IngredientKinds}"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,8 +21,15 @@
 
         <Grid Grid.Row="1" Margin="0 10 0 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="45"/>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -26,10 +38,39 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Nom :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Item.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Code :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Code :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Item.Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Type d'ingrédient :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding IngredientKinds}" SelectedItem="{Binding Item.IngredientKindId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource xGuidToIngredientKindVDConverter}}" FontSize="20" Margin="5 5 10 5" Width="500" Height="40">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontSize="20"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Calories :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Item.Calories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Protéines :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Item.Protein, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Glucides :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Item.Carbohydrate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Lipides :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Item.Lipid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Eau :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Item.Water, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
+
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Fibres :" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" TextWrapping="Wrap" FontSize="20"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Item.Fiber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" FontSize="20" Margin="5 0 10 0"/>
         </Grid>
     </Grid>
 </UserControl>

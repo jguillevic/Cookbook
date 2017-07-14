@@ -1,11 +1,12 @@
 ﻿using Cookbook.BLL.Recipe;
 using Cookbook.Entity.Recipe;
+using Cookbook.Serializer.Recipe.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using Tools.Helper.Compress;
-using Tools.Helper.Json;
 using Tools.Service.Http;
+using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
 namespace Cookbook.Service.Recipe
 {
@@ -41,16 +42,15 @@ namespace Cookbook.Service.Recipe
         {
             if (context.IsAcceptGZipJson())
             {
-                var measureIds = GetMeasureIds(context);
+                var filter = GetFilter(context);
+                var fields = GetFields(context);
 
-                List<Measure> measures;
-                
-                if (measureIds.Count > 0)
-                    measures = _measureBLL.Load(new MeasureFilter { IdsToLoad = measureIds });
-                else
-                    measures = _measureBLL.Load();
+                var measures = _measureBLL.Load(filter, fields);
 
-                using (var stream = JsonHelper.SerializeToStream(measures))
+                var serializer = new MeasureJsonSerializer();
+                serializer.SetFields(fields);
+
+                using (var stream = serializer.Serialize(measures))
                 {
                     using (var gzip = GZipHelper.Compress(stream))
                     {
@@ -67,23 +67,46 @@ namespace Cookbook.Service.Recipe
             }
         }
 
-        private static List<Guid> GetMeasureIds(HttpListenerContext context)
+        private static MeasureFilter GetFilter(HttpListenerContext context)
         {
-            var measureIds = new List<Guid>();
+            var filter = new MeasureFilter();
 
             foreach (var key in context.Request.QueryString.AllKeys)
             {
                 switch (key.ToLower())
                 {
-                    case "measureids":
-                        measureIds.Add(new Guid(context.Request.QueryString[key]));
+                    case "id":
+                        filter.IdsToLoad.Add(new Guid(context.Request.QueryString[key]));
                         break;
                     default:
                         break;
                 }
             }
 
-            return measureIds;
+            return filter;
+        }
+
+        private static List<string> GetFields(HttpListenerContext context)
+        {
+            var fields = new List<string>();
+
+            foreach (var key in context.Request.QueryString.AllKeys)
+            {
+                switch (key.ToLower())
+                {
+                    case "field":
+                        foreach (var field in context.Request.QueryString[key].Split(','))
+                            fields.Add(field.ToLower());
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (fields.Count > 0)
+                return fields;
+            else
+                return new List<string>(MeasureEntityDescription.AllLower);
         }
 
         private static void Add(HttpListenerContext context)
@@ -93,11 +116,11 @@ namespace Cookbook.Service.Recipe
             {
                 using (var gzip = GZipHelper.Decompress(context.Request.InputStream))
                 {
-                    var measures = JsonHelper.DeserializeFromStream<List<Measure>>(gzip);
+                    var measures = new MeasureJsonSerializer().Deserialize(gzip);
 
                     if (measures.Count > 0)
                     {
-                        _measureBLL.Add(measures);
+                        _measureBLL.Add(measures); ;
                     }
                 }
 
@@ -117,7 +140,7 @@ namespace Cookbook.Service.Recipe
             {
                 using (var gzip = GZipHelper.Decompress(context.Request.InputStream))
                 {
-                    var measures = JsonHelper.DeserializeFromStream<List<Measure>>(gzip);
+                    var measures = new MeasureJsonSerializer().Deserialize(gzip);
 
                     if (measures.Count > 0)
                     {

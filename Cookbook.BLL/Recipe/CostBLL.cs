@@ -13,9 +13,9 @@ namespace Cookbook.BLL.Recipe
             _costDAL = new CostDAL();
         }
 
-        public List<Cost> Load()
+        public List<Cost> Load(List<string> fields)
         {
-            return _costDAL.Load();
+            return _costDAL.Load(fields);
         }
     }
 }

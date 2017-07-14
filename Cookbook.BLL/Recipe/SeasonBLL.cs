@@ -13,9 +13,9 @@ namespace Cookbook.BLL.Recipe
             _seasonDAL = new SeasonDAL();
         }
 
-        public List<Season> Load()
+        public List<Season> Load(List<string> fields)
         {
-            return _seasonDAL.Load();
+            return _seasonDAL.Load(fields);
         }
     }
 }

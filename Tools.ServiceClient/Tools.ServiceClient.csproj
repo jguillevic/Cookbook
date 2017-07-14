@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tools.Helper\Tools.Helper.csproj" />
+    <ProjectReference Include="..\Tools.Serializer\Tools.Serializer.csproj" />
   </ItemGroup>
 
 </Project>

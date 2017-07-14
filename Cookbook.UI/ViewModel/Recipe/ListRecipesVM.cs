@@ -2,17 +2,34 @@
 using Cookbook.ServiceClient.Recipe;
 using Cookbook.UI.ViewData.Recipe;
 using Cookbook.UI.ViewModel.Home;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tools.UI.Command;
+using Tools.UI.Common;
 using Tools.UI.ViewModel;
+using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
 namespace Cookbook.UI.ViewModel.Recipe
 {
     public class ListRecipesVM : PageViewModel
     {
-        public ObservableCollection<RecipeSummaryVD> Recipes { get; private set; }
+        public ObservableRangeCollection<RecipeSummaryVD> Recipes { get; private set; }
 
         public RecipeFilterVD Filter { get; private set; }
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                if (_selectedIndex != value)
+                {
+                    _selectedIndex = value;
+                    OnPropertyChanged("SelectedIndex");
+                }
+            }
+        }
 
         public DelegateCommand AddCommand { get; set; }
         public DelegateCommand UpdateCommand { get; set; }
@@ -21,7 +38,7 @@ namespace Cookbook.UI.ViewModel.Recipe
 
         public ListRecipesVM()
         {
-            Recipes = new ObservableCollection<RecipeSummaryVD>();
+            Recipes = new ObservableRangeCollection<RecipeSummaryVD>();
 
             AddCommand = new DelegateCommand(AddCommandExecute);
             UpdateCommand = new DelegateCommand(UpdateCommandExecute);
@@ -35,31 +52,44 @@ namespace Cookbook.UI.ViewModel.Recipe
             Filter = new RecipeFilterVD(filter);
         }
 
-        public override async void Populate()
+        public override async Task PopulateAsync()
         {
             Recipes.Clear();
-            var recipes = await RecipeServiceClient.LoadAsync(Filter.GetEntity());
-            recipes.ForEach(item => Recipes.Add(new RecipeSummaryVD(item)));  
+
+            var recipes 
+                = await RecipeServiceClient.LoadAsync(
+                    Filter.GetEntity()
+                    , new List<string> {
+                        RecipeEntityDescription.Id
+                        , RecipeEntityDescription.Name
+                        , RecipeEntityDescription.Description
+                        , RecipeEntityDescription.CookingTime
+                        , RecipeEntityDescription.PreparationTime });
+
+            var recipesVD = new List<RecipeSummaryVD>(recipes.Count);
+            recipes.ForEach(item => recipesVD.Add(new RecipeSummaryVD(item)));
+
+            Recipes.AddRange(recipesVD);
         }
 
-        private void AddCommandExecute(object obj)
+        private async void AddCommandExecute(object obj)
         {
-            Setter.SetCurrentViewModel(new AddOrUpdateRecipeVM());
+            await Setter.SetCurrentViewModelAsync(new AddOrUpdateRecipeVM());
         }
 
-        private void UpdateCommandExecute(object obj)
+        private async void UpdateCommandExecute(object obj)
         {
-            Setter.SetCurrentViewModel(new AddOrUpdateRecipeVM(Recipes[0].Id));
+            await Setter.SetCurrentViewModelAsync(new AddOrUpdateRecipeVM(Recipes[SelectedIndex].Id));
         }
 
-        private void RefreshCommandExecute(object obj)
+        private async void RefreshCommandExecute(object obj)
         {
-            Populate();
+            await PopulateAsync();
         }
 
-        private void GoToHomeCommandExecute(object obj)
+        private async void GoToHomeCommandExecute(object obj)
         {
-            Setter.SetCurrentViewModel(new HomeViewModel());
+            await Setter.SetCurrentViewModelAsync(new HomeViewModel());
         }
     }
 }

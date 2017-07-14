@@ -13,9 +13,9 @@ namespace Cookbook.BLL.Recipe
             _recipeKindDAL = new RecipeKindDAL();
         }
 
-        public List<RecipeKind> Load()
+        public List<RecipeKind> Load(List<string> fields)
         {
-            return _recipeKindDAL.Load();
+            return _recipeKindDAL.Load(fields);
         }
     }
 }
