@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="Cookbook.UI.View.Recipe.RecipeCrawlerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Cookbook.UI.View.Recipe"
+    xmlns:tbExt="using:Tools.Component.Extension.TextBox"
+    xmlns:recipeConverter="using:Cookbook.UI.Converter.Recipe">
+
+    <UserControl.Resources>
+        <recipeConverter:GuidToMeasureVDConverter x:Key="xGuidToMeasureVDConverter" Measures="{Binding Measures}"/>
+        <recipeConverter:GuidToIngredientVDConverter x:Key="xGuidToIngredientVDConverter" Ingredients="{Binding Ingredients}"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <CommandBar Grid.Row="0">
+            <AppBarButton Label="Recettes" Command="{Binding GoToListRecipesCommand}"/>
+        </CommandBar>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="10 20 10 0">
+            <TextBox Header="Nombre de recettes à crawler" Text="{Binding Path=RecipeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" tbExt:OnlyIntegerTBExt.OnlyInteger="True" HorizontalAlignment="Left" Width="200"/>
+            <TextBlock HorizontalAlignment="Left" Text="{Binding Path=CrawlingStatus, Mode=OneWay}" Margin="0 30 0 0"/>
+            <ProgressBar Value="{Binding Path=CurrentRecipeIndex, Mode=OneWay}" Maximum="{Binding Path=RecipeNumber, Mode=OneWay}" Height="30" Margin="0 5 0 0"/>
+            <Button Content="Crawler" Command="{Binding CrawlRecipeCommand}" Margin="0 20 0 0" HorizontalAlignment="Center" Width="200" Height="40"/>
+            <Border BorderBrush="LightGray" BorderThickness="1" Width="Auto" HorizontalAlignment="Stretch" Margin="0 20 0 0"/>
+            
+            <!--Zone mesure.-->
+            <StackPanel Orientation="Vertical" Margin="0 20 0 0">
+                <TextBlock Text="{Binding Path=NotRecognizedText}" HorizontalAlignment="Left" FontSize="30"/>
+                <Grid Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0 10 0 20">
+                        <TextBlock Text="Associer à une mesure existante" FontSize="20" HorizontalAlignment="Left"/>
+                        <TextBox Header="Nom alternatif" Text="{Binding Path=AlternativeName}" Width="400" Margin="0 15 0 0" HorizontalAlignment="Left"/>
+                        <ComboBox Header="Mesure associée" ItemsSource="{Binding Path=Measures}" SelectedItem="{Binding Path=MeasureId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource xGuidToMeasureVDConverter}}" Width="400" Margin="0 5 0 0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" Height="Auto" VerticalAlignment="Stretch" Margin="0 10 0 10"/>
+                    <StackPanel Grid.Column="2" Orientation="Vertical" Margin="10 10 0 20">
+                        <TextBlock Text="Ajouter une nouvelle mesure" FontSize="20" HorizontalAlignment="Left"/>
+                        <local:EditMeasureUserControl  Margin="0 15 0 0" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Grid>
+                <Button Content="Reprendre" Command="{Binding ResumeCrawlCommand}" Margin="0 20 0 0" HorizontalAlignment="Center" Width="200" Height="40"/>
+            </StackPanel>
+            
+            <!--Zone ingédient.-->
+        </StackPanel>
+    </Grid>
+</UserControl>

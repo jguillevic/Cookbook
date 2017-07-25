@@ -32,7 +32,7 @@ namespace Tools.UI.Command
             _Execute(parameter);
         }
 
-        public void RaiseCanExecuteChanged()
+        public void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }

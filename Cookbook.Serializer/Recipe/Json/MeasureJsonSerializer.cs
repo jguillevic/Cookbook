@@ -106,7 +106,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var measures = new List<Measure>();
             Measure measure = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     measure = new Measure();

@@ -106,7 +106,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var costs = new List<Cost>();
             Cost cost = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     cost = new Cost();

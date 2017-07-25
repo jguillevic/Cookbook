@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Tools.Serializer.Json;
@@ -176,7 +177,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var ingredients = new List<Ingredient>();
             Ingredient ingredient = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     ingredient = new Ingredient();
@@ -274,7 +275,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (IngredientSerializerDescription.Calories.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Calories = decimal.Parse(jsonReader.Value.ToString());
+                    ingredient.Calories = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -290,7 +291,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (IngredientSerializerDescription.Protein.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Protein = decimal.Parse(jsonReader.Value.ToString());
+                    ingredient.Protein = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -306,7 +307,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (IngredientSerializerDescription.Carbohydrate.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Carbohydrate = decimal.Parse(jsonReader.Value.ToString());
+                    ingredient.Carbohydrate = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -322,7 +323,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (IngredientSerializerDescription.Lipid.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Lipid = decimal.Parse(jsonReader.Value.ToString());
+                    ingredient.Lipid = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -338,7 +339,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (IngredientSerializerDescription.Water.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Water = decimal.Parse(jsonReader.Value.ToString());
+                    ingredient.Water = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -354,7 +355,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (IngredientSerializerDescription.Fiber.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Fiber = decimal.Parse(jsonReader.Value.ToString());
+                    ingredient.Fiber = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }

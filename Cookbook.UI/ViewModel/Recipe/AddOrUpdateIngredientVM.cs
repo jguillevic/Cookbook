@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tools.UI.Command;
+using Tools.UI.Common;
 using Tools.UI.ViewModel;
 
 namespace Cookbook.UI.ViewModel.Recipe
@@ -24,7 +25,7 @@ namespace Cookbook.UI.ViewModel.Recipe
             }
         }
 
-        public List<IngredientKindVD> IngredientKinds { get; private set; }
+        public ObservableRangeCollection<IngredientKindVD> IngredientKinds { get; private set; }
 
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand UndoCommand { get; set; }
@@ -35,7 +36,7 @@ namespace Cookbook.UI.ViewModel.Recipe
         {
             _ingredientId = ingredientId;
 
-            IngredientKinds = new List<IngredientKindVD>();
+            IngredientKinds = new ObservableRangeCollection<IngredientKindVD>();
 
             SaveCommand = new DelegateCommand(SaveCommandExecute);
             UndoCommand = new DelegateCommand(UndoCommandExecute);
@@ -48,6 +49,8 @@ namespace Cookbook.UI.ViewModel.Recipe
 
         private void InitializeIngredientKinds()
         {
+            IngredientKinds.Clear();
+
             var ingredientKinds = ((IngredientKindDataProvider)DataProviderManager.GetDataProvider(DataProviderKeys.IngredientKindDataProviderKey)).Items;
             foreach (var ingredientKind in ingredientKinds)
                 IngredientKinds.Add(new IngredientKindVD(ingredientKind));

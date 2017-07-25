@@ -16,8 +16,7 @@ namespace Tools.UI.View
             if (item != null)
             {
                 var viewModelTypeName = string.Format("x{0}DataTemplate", item.GetType().Name);
-                var dataTemplateInTree = FindResourceKeyUpTree(viewModelTypeName, container);
-                //return or default to Application resource
+                var dataTemplateInTree = FindResourceKeyUpTree(viewModelTypeName, container);           
                 return dataTemplateInTree ?? (DataTemplate)Application.Current.Resources[viewModelTypeName];
             }
             return null;

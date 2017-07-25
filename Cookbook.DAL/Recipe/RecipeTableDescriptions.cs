@@ -86,7 +86,10 @@
         public const string DifficultyId = "DifficultyId";
         public const string RecipeKindId = "RecipeKindId";
         public const string ExternalUrl = "ExternalUrl";
+        public const string ImageUrl = "ImageUrl";
         public const string UserId = "UserId";
+        public const string CreationDate = "CreationDate";
+        public const string LastUpdatedDate = "LastUpdatedDate";
     }
 
     public static class RecipeIngredientTableDescription

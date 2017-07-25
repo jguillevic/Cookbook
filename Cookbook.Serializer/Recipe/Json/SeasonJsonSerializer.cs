@@ -106,7 +106,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var seasons = new List<Season>();
             Season season = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     season = new Season();

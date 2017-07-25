@@ -10,19 +10,18 @@
         </Grid.RowDefinitions>
 
         <CommandBar Grid.Row="0">
-            <AppBarButton Name="xAdd" Icon="Add" Label="Ajouter" Command="{Binding AddCommand}"/>
-            <AppBarButton Name="xEdit" Icon="Edit" Label="Modifier" Command="{Binding UpdateCommand}"/>
-            <AppBarButton Name="xRefresh" Icon="Refresh" Label="Rafraîchir" Command="{Binding RefreshCommand}"/>
-            <AppBarButton Name="xCrawl" Icon="Download" Label="Crawler"/>
-            <AppBarButton Name="xHome" Icon="Home" Label="Accueil" Command="{Binding GoToHomeCommand}"/>
+            <AppBarButton Icon="Add" Label="Ajouter" Command="{Binding AddCommand}"/>
+            <AppBarButton Icon="Edit" Label="Modifier" Command="{Binding UpdateCommand}"/>
+            <AppBarButton Icon="Refresh" Label="Rafraîchir" Command="{Binding RefreshCommand}"/>
+            <AppBarButton Icon="Download" Label="Crawler" Command="{Binding GoToRecipeCrawlerCommand}"/>
+            <AppBarButton Icon="Home" Label="Accueil" Command="{Binding GoToHomeCommand}"/>
         </CommandBar>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Recipes}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="x:String">
+                <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" FontSize="20" Width="100" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Description}" FontSize="20" Width="100" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Name}" FontSize="20" Width="700" TextTrimming="CharacterEllipsis"/>
                         <TextBlock Text="{Binding PreparationTime}" FontSize="20" Width="50" TextTrimming="CharacterEllipsis"/>
                         <TextBlock Text="{Binding CookingTime}" FontSize="20" Width="50" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>

@@ -99,8 +99,12 @@
     </Compile>
     <Compile Include="Converter\Recipe\GuidToCostVDConverter.cs" />
     <Compile Include="Converter\Recipe\GuidToDifficultyVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToFeatureVDConverter.cs" />
     <Compile Include="Converter\Recipe\GuidToIngredientKindVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToIngredientVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToMeasureVDConverter.cs" />
     <Compile Include="Converter\Recipe\GuidToRecipeKindVDConverter.cs" />
+    <Compile Include="Converter\Recipe\GuidToSeasonVDConverter.cs" />
     <Compile Include="DataProvider\DataProviderKeys.cs" />
     <Compile Include="DataProvider\Recipe\CostDataProvider.cs" />
     <Compile Include="DataProvider\Recipe\DifficultyDataProvider.cs" />
@@ -113,14 +117,17 @@
     </Compile>
     <Compile Include="ViewData\Recipe\CostVD.cs" />
     <Compile Include="ViewData\Recipe\DifficultyVD.cs" />
+    <Compile Include="ViewData\Recipe\FeatureVD.cs" />
     <Compile Include="ViewData\Recipe\IngredientKindVD.cs" />
     <Compile Include="ViewData\Recipe\IngredientSummaryVD.cs" />
     <Compile Include="ViewData\Recipe\IngredientVD.cs" />
     <Compile Include="ViewData\Recipe\MeasureSummaryVD.cs" />
     <Compile Include="ViewData\Recipe\MeasureVD.cs" />
     <Compile Include="ViewData\Recipe\RecipeKindVD.cs" />
+    <Compile Include="ViewData\Recipe\SeasonVD.cs" />
     <Compile Include="ViewModel\CookbookAppVM.cs" />
     <Compile Include="ViewModel\Home\HomeViewModel.cs" />
+    <Compile Include="ViewModel\Recipe\RecipeCrawlerVM.cs" />
     <Compile Include="View\DataTemplatesDic.cs" />
     <Compile Include="View\Home\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -146,6 +153,9 @@
     <Compile Include="View\Recipe\AddOrUpdateRecipeView.xaml.cs">
       <DependentUpon>AddOrUpdateRecipeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Recipe\EditMeasureUserControl.xaml.cs">
+      <DependentUpon>EditMeasureUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Recipe\ListIngredientsView.xaml.cs">
       <DependentUpon>ListIngredientsView.xaml</DependentUpon>
     </Compile>
@@ -155,7 +165,9 @@
     <Compile Include="View\Recipe\ListRecipesView.xaml.cs">
       <DependentUpon>ListRecipesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Recipe\OnlyIntegerTBExt.cs" />
+    <Compile Include="View\Recipe\RecipeCrawlerView.xaml.cs">
+      <DependentUpon>RecipeCrawlerView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -203,6 +215,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Recipe\EditMeasureUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Recipe\ListIngredientsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -215,6 +231,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Recipe\RecipeCrawlerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -222,6 +242,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cookbook.Crawler\Cookbook.Crawler.csproj">
+      <Project>{E95E4330-AF25-493E-B1B5-E4C704FF5220}</Project>
+      <Name>Cookbook.Crawler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cookbook.Entity\Cookbook.Entity.csproj">
       <Project>{1db6fe14-a80a-4627-bc81-a674c68bd1d1}</Project>
       <Name>Cookbook.Entity</Name>
@@ -243,7 +267,6 @@
       <Name>Tools.UI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

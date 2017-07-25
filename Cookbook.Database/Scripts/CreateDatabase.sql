@@ -85,7 +85,7 @@ GO
 
 CREATE TABLE [dbo].[Recipe](
 	[Id] [uniqueidentifier] NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
 	[Description] [nvarchar](500) NOT NULL,
 	[PreparationTime] [int] NOT NULL,
 	[CookingTime] [int] NOT NULL,
@@ -93,7 +93,10 @@ CREATE TABLE [dbo].[Recipe](
 	[DifficultyId] [uniqueidentifier] NOT NULL,
 	[RecipeKindId] [uniqueidentifier] NOT NULL,
 	[ExternalUrl] [nvarchar](500) NULL,
+	[ImageUrl] [nvarchar](500) NOT NULL,
 	[UserId] [uniqueidentifier] NULL,
+	[CreationDate] [datetime2] NOT NULL,
+	[LastUpdatedDate] [datetime2] NOT NULL,
 	CONSTRAINT [PK_Recipe] PRIMARY KEY ([Id]))
 GO
 
@@ -114,7 +117,7 @@ CREATE TABLE [dbo].[RecipeIngredient](
 	[IngredientId] [uniqueidentifier] NOT NULL,
 	[MeasureId] [uniqueidentifier] NOT NULL,
 	[Order] [int] NOT NULL,
-	[Amount] [decimal](18,7) NOT NULL,
+	[Amount] [decimal](10,5) NOT NULL,
 	CONSTRAINT [PK_RecipeIngredient] PRIMARY KEY ([RecipeId], [IngredientId], [MeasureId], [Order]))
 GO
 

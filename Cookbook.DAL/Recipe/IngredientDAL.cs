@@ -26,6 +26,8 @@ namespace Cookbook.DAL.Recipe
             if (filter.IdsToLoad.Count > 0)
                 sqb.AddWhere(IngredientTableDescription.Id, Comparison.In, filter.IdsToLoad);
 
+            sqb.AddOrderBy(IngredientTableDescription.Name, Sorting.Ascending);
+
             var ingredients = sqb.Read<Ingredient, List<Ingredient>>(DefaultConnectProvider, GetIngredientFromIDataRecord);
 
             return ingredients;

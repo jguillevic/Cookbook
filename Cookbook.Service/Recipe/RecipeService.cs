@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using Tools.Helper.Compress;
-using Tools.Helper.Json;
 using Tools.Service.Http;
 
 namespace Cookbook.Service.Recipe
 {
+    using Cookbook.Serializer.Recipe.Json;
     using Entity.Recipe;
     using static Cookbook.Entity.Recipe.RecipeEntityDescriptions;
 
@@ -49,7 +49,10 @@ namespace Cookbook.Service.Recipe
 
                 var recipes = _recipeBLL.Load(filter, fields);
 
-                using (var stream = JsonHelper.SerializeToStream(recipes))
+                var serializer = new RecipeJsonSerializer();
+                serializer.SetFields(fields);
+
+                using (var stream = serializer.Serialize(recipes))
                 {
                     using (var gzip = GZipHelper.Compress(stream))
                     {
@@ -74,6 +77,10 @@ namespace Cookbook.Service.Recipe
             {
                 switch (key.ToLower())
                 {
+                    case "id":
+                        foreach (var id in context.Request.QueryString[key].Split(','))
+                            filter.IdsToLoad.Add(new Guid(id));
+                        break;
                     case "name":
                         filter.Name = context.Request.QueryString[key].ToLower();
                         break;
@@ -141,7 +148,7 @@ namespace Cookbook.Service.Recipe
             {
                 using (var gzip = GZipHelper.Decompress(context.Request.InputStream))
                 {
-                    var recipes = JsonHelper.DeserializeFromStream<List<Recipe>>(gzip);
+                    var recipes = new RecipeJsonSerializer().Deserialize(gzip);
 
                     if (recipes.Count > 0)
                     {
@@ -165,7 +172,7 @@ namespace Cookbook.Service.Recipe
             {
                 using (var gzip = GZipHelper.Decompress(context.Request.InputStream))
                 {
-                    var recipes = JsonHelper.DeserializeFromStream<List<Recipe>>(gzip);
+                    var recipes = new RecipeJsonSerializer().Deserialize(gzip);
 
                     if (recipes.Count > 0)
                     {

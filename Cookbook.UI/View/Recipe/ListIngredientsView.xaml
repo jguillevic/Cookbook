@@ -16,7 +16,7 @@
             <AppBarButton Icon="Home" Label="Accueil" Command="{Binding GoToHomeCommand}"/>
         </CommandBar>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Ingredients}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+        <ListView Grid.Row="1" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <StackPanel>

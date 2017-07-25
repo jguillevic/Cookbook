@@ -68,14 +68,14 @@ namespace Cookbook.ServiceClient.Recipe
                 , sb);
         }
 
-        public async static Task<bool> AddAsync(List<Measure> measures)
+        public async static Task AddAsync(List<Measure> measures)
         {
-            return await ServiceClientHelper.PostGzipJsonAsync(_url, new MeasureJsonSerializer(), measures);
+            await ServiceClientHelper.PostGzipJsonAsync(_url, new MeasureJsonSerializer(), measures);
         }
 
-        public async static Task<bool> UpdateAsync(List<Measure> measures)
+        public async static Task UpdateAsync(List<Measure> measures)
         {
-            return await ServiceClientHelper.PutGzipJsonAsync(_url, new MeasureJsonSerializer(), measures);
+            await ServiceClientHelper.PutGzipJsonAsync(_url, new MeasureJsonSerializer(), measures);
         }
     }
 }

@@ -32,5 +32,8 @@
     <DataTemplate x:DataType="recipeViewModel:AddOrUpdateRecipeVM" x:Key="xAddOrUpdateRecipeVMDataTemplate">
         <recipeView:AddOrUpdateRecipeView/>
     </DataTemplate>
+    <DataTemplate x:DataType="recipeViewModel:RecipeCrawlerVM" x:Key="xRecipeCrawlerVMDataTemplate">
+        <recipeView:RecipeCrawlerView/>
+    </DataTemplate>
 
 </ResourceDictionary>

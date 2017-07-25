@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tools.Common\Tools.Common.csproj" />
     <ProjectReference Include="..\Tools.Serializer\Tools.Serializer.csproj" />
   </ItemGroup>
 

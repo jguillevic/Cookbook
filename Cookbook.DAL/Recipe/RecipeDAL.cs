@@ -103,6 +103,8 @@ namespace Cookbook.DAL.Recipe
             hasWhere = AddSeasonCondition(sqb, filter.SeasonIds, hasWhere);
             hasWhere = AddFeatureCondition(sqb, filter.FeatureIds, hasWhere);
             hasWhere = AddRecipeKindCondition(sqb, filter.RecipeKindIds, hasWhere);
+            hasWhere = AddIdsToLoadCondition(sqb, filter.IdsToLoad, hasWhere);
+
 
             sqb.AddOrderBy(RecipeTableDescription.Id, Sorting.Ascending);
 
@@ -133,6 +135,8 @@ namespace Cookbook.DAL.Recipe
                 sqb.AddQueriedField(RecipeTableDescription.ExternalUrl);
             if (_fields.Contains(RecipeEntityDescription.UserId.ToLower()))
                 sqb.AddQueriedField(RecipeTableDescription.UserId);
+            if (_fields.Contains(RecipeEntityDescription.ImageUrl.ToLower()))
+                sqb.AddQueriedField(RecipeTableDescription.ImageUrl);
         }
 
         private Recipe GetRecipeFromIDataRecord(IDataRecord dataRecord)
@@ -159,6 +163,8 @@ namespace Cookbook.DAL.Recipe
                 recipe.ExternalUrl = dataRecord.GetNullableString(RecipeTableDescription.ExternalUrl);
             if (_fields.Contains(RecipeEntityDescription.UserId.ToLower()))
                 recipe.UserId = dataRecord.GetNullableGuid(RecipeTableDescription.UserId);
+            if (_fields.Contains(RecipeEntityDescription.ImageUrl.ToLower()))
+                recipe.ImageUrl = dataRecord.GetString(RecipeTableDescription.ImageUrl);
 
             return recipe;
         }
@@ -314,7 +320,26 @@ namespace Cookbook.DAL.Recipe
 
             return hasWhere;
         }
-        
+
+        private static bool AddIdsToLoadCondition(SelectQueryBuilder sqb, List<Guid> ids, bool hasWhere)
+        {
+            if (ids.Any())
+            {
+                if (!hasWhere)
+                {
+                    sqb.AddWhere(RecipeTableDescription.Id, Comparison.In, ids);
+                }
+                else
+                {
+                    sqb.AddCondition(LogicOperator.And, RecipeTableDescription.Id, Comparison.In, ids);
+                }
+
+                return true;
+            }
+
+            return hasWhere;
+        }
+
         public void Add(IEnumerable<Recipe> recipes)
         {
             using (var scope = TransactionScopeHelper.GetTransactionScope())
@@ -360,9 +385,9 @@ namespace Cookbook.DAL.Recipe
 
             iqb.SetTableName(RecipeTableDescription.TableName);
 
-            iqb.AddInsertFields(GetRecipeColumnNames());
+            iqb.AddInsertFields(GetAddedRecipeColumnNames());
 
-            iqb.AddInsertValues(GetRecipeValues(recipes));
+            iqb.AddInsertValues(GetAddedRecipeValues(recipes));
 
             iqb.Execute(DefaultConnectProvider);
         }
@@ -372,12 +397,6 @@ namespace Cookbook.DAL.Recipe
             using (var scope = TransactionScopeHelper.GetTransactionScope())
             {
                 UpdateRecipes(recipes);
-
-                // TODO : Faire des méthodes par concept.
-                // Idem pour Add.
-                // Faire du MVVM.
-                // Faire des ICommand.
-                // Plus de code behind dans le xaml.
 
                 var recipeIds = recipes.Select(item => item.Id);
 
@@ -425,12 +444,12 @@ namespace Cookbook.DAL.Recipe
 
             uqb.SetTableName(RecipeTableDescription.TableName);
 
-            uqb.AddSettedFields(new List<string> { RecipeTableDescription.Id }, GetRecipeColumnNames(), GetRecipeValues(recipes));
+            uqb.AddSettedFields(new List<string> { RecipeTableDescription.Id }, GetUpdatedRecipeColumnNames(), GetUpdatedRecipeValues(recipes));
 
             uqb.Execute(DefaultConnectProvider);
         }
 
-        private List<string> GetRecipeColumnNames()
+        private List<string> GetAddedRecipeColumnNames()
         {
             return new List<string> {
                     RecipeTableDescription.Id
@@ -442,10 +461,61 @@ namespace Cookbook.DAL.Recipe
                     , RecipeTableDescription.DifficultyId
                     , RecipeTableDescription.RecipeKindId
                     , RecipeTableDescription.ExternalUrl
-                    , RecipeTableDescription.UserId };
+                    , RecipeTableDescription.UserId
+                    , RecipeTableDescription.CreationDate
+                    , RecipeTableDescription.LastUpdatedDate
+                    , RecipeTableDescription.ImageUrl };
         }
 
-        private List<List<object>> GetRecipeValues(IEnumerable<Recipe> recipes)
+        private List<string> GetUpdatedRecipeColumnNames()
+        {
+            return new List<string> {
+                    RecipeTableDescription.Id
+                    , RecipeTableDescription.Name
+                    , RecipeTableDescription.Description
+                    , RecipeTableDescription.CookingTime
+                    , RecipeTableDescription.PreparationTime
+                    , RecipeTableDescription.CostId
+                    , RecipeTableDescription.DifficultyId
+                    , RecipeTableDescription.RecipeKindId
+                    , RecipeTableDescription.ExternalUrl
+                    , RecipeTableDescription.UserId
+                    , RecipeTableDescription.LastUpdatedDate
+                    , RecipeTableDescription.ImageUrl };
+        }
+
+        private List<List<object>> GetAddedRecipeValues(IEnumerable<Recipe> recipes)
+        {
+            var values = new List<List<object>>();
+            List<object> value;
+            DateTime date;
+
+            foreach (var recipe in recipes)
+            {
+                value = new List<object>();
+
+                value.Add(recipe.Id);
+                value.Add(recipe.Name);
+                value.Add(recipe.Description);
+                value.Add(recipe.CookingTime);
+                value.Add(recipe.PreparationTime);
+                value.Add(recipe.CostId);
+                value.Add(recipe.DifficultyId);
+                value.Add(recipe.RecipeKindId);
+                value.Add(recipe.ExternalUrl);
+                value.Add(recipe.UserId);
+                date = DateTime.Now;
+                value.Add(date);
+                value.Add(date);
+                value.Add(recipe.ImageUrl);
+
+                values.Add(value);
+            }
+
+            return values;
+        }
+
+        private List<List<object>> GetUpdatedRecipeValues(IEnumerable<Recipe> recipes)
         {
             var values = new List<List<object>>();
             List<object> value;
@@ -464,6 +534,8 @@ namespace Cookbook.DAL.Recipe
                 value.Add(recipe.RecipeKindId);
                 value.Add(recipe.ExternalUrl);
                 value.Add(recipe.UserId);
+                value.Add(DateTime.Now);
+                value.Add(recipe.ImageUrl);
 
                 values.Add(value);
             }

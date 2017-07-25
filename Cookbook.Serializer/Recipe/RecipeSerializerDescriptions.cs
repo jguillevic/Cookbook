@@ -81,6 +81,7 @@ namespace Cookbook.Serializer.Recipe
         public static readonly PropertyDescription Ingredients = new PropertyDescription { Name = "Ingredients", ShortName = "11" };
         public static readonly PropertyDescription ExternalUrl = new PropertyDescription { Name = "ExternalUrl", ShortName = "12" };
         public static readonly PropertyDescription UserId = new PropertyDescription { Name = "UserId", ShortName = "13" };
+        public static readonly PropertyDescription ImageUrl = new PropertyDescription { Name = "ImageUrl", ShortName = "14" };
     }
 
     public static class RecipeInstructionSerializerDescription

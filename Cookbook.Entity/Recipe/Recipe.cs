@@ -27,5 +27,6 @@ namespace Cookbook.Entity.Recipe
         public List<RecipeIngredient> Ingredients { get; set; }
         public string ExternalUrl { get; set; }
         public Guid? UserId { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

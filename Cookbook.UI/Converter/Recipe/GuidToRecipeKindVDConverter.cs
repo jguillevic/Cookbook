@@ -1,7 +1,7 @@
 ﻿using Cookbook.UI.ViewData.Recipe;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using Tools.UI.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -9,15 +9,15 @@ namespace Cookbook.UI.Converter.Recipe
 {
     public class GuidToRecipeKindVDConverter : DependencyObject, IValueConverter
     {
-        public List<RecipeKindVD> RecipeKinds
+        public ObservableRangeCollection<RecipeKindVD> RecipeKinds
         {
-            get { return (List<RecipeKindVD>)GetValue(RecipeKindsProperty); }
+            get { return (ObservableRangeCollection<RecipeKindVD>)GetValue(RecipeKindsProperty); }
             set { SetValue(RecipeKindsProperty, value); }
         }
 
         public static readonly DependencyProperty RecipeKindsProperty =
             DependencyProperty.Register("RecipeKinds",
-                                        typeof(List<RecipeKindVD>),
+                                        typeof(ObservableRangeCollection<RecipeKindVD>),
                                         typeof(GuidToRecipeKindVDConverter),
                                         new PropertyMetadata(null));
 

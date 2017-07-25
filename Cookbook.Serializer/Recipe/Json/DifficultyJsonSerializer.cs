@@ -106,7 +106,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var difficultys = new List<Difficulty>();
             Difficulty difficulty = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     difficulty = new Difficulty();

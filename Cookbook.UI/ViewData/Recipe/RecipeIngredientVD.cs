@@ -68,7 +68,7 @@ namespace Cookbook.UI.ViewData.Recipe
             Amount = recipeIngredient.Amount;
         }
 
-        public RecipeIngredient GetEntity()
+        public RecipeIngredient GetEntity(int personNumber)
         {
             var recipeIngredient = new RecipeIngredient();
 
@@ -76,7 +76,7 @@ namespace Cookbook.UI.ViewData.Recipe
             recipeIngredient.Order = Order;
             recipeIngredient.IngredientId = IngredientId;
             recipeIngredient.MeasureId = MeasureId;
-            recipeIngredient.Amount = Amount;
+            recipeIngredient.Amount = Amount / personNumber;
 
             return recipeIngredient;
         }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Tools.Serializer.Json;
@@ -126,7 +127,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var ingredients = new List<RecipeIngredient>();
             RecipeIngredient ingredient = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     ingredient = new RecipeIngredient();
@@ -203,7 +204,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (RecipeIngredientSerializerDescription.Amount.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Amount = int.Parse(jsonReader.Value.ToString());
+                    ingredient.Amount = Convert.ToDecimal(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -219,7 +220,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (RecipeIngredientSerializerDescription.Order.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    ingredient.Order = int.Parse(jsonReader.Value.ToString());
+                    ingredient.Order = Convert.ToInt32(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }

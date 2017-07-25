@@ -106,7 +106,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var features = new List<Feature>();
             Feature feature = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     feature = new Feature();

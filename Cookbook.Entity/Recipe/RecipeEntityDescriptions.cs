@@ -102,6 +102,7 @@ namespace Cookbook.Entity.Recipe
             public const string Instructions = "Instructions";
             public const string ExternalUrl = "ExternalUrl";
             public const string UserId = "UserId";
+            public const string ImageUrl = "ImageUrl";
             public static List<string> AllLower 
                 = new List<string> {
                     Id.ToLower()
@@ -117,7 +118,8 @@ namespace Cookbook.Entity.Recipe
                     , Ingredients.ToLower()
                     , Instructions.ToLower()
                     , ExternalUrl.ToLower()
-                    , UserId.ToLower() };
+                    , UserId.ToLower()
+                    , ImageUrl.ToLower() };
         }
 
         public static class RecipeInstructionEntityDescription

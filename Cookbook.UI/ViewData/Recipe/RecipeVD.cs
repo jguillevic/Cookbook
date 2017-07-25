@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using Tools.UI.ViewData;
 using Tools.UI.Common;
+using Tools.UI.ViewData;
 
 namespace Cookbook.UI.ViewData.Recipe
 {
@@ -64,6 +63,20 @@ namespace Cookbook.UI.ViewData.Recipe
                 {
                     _description = value;
                     OnPropertyChanged("Description");
+                }
+            }
+        }
+
+        private string _imageUrl;
+        public string ImageUrl
+        {
+            get { return _imageUrl; }
+            set
+            {
+                if (_imageUrl != value)
+                {
+                    _imageUrl = value;
+                    OnPropertyChanged("ImageUrl");
                 }
             }
         }
@@ -166,6 +179,7 @@ namespace Cookbook.UI.ViewData.Recipe
             PreparationTime = recipe.PreparationTime;
             CookingTime = recipe.CookingTime;
             Description = recipe.Description;
+            ImageUrl = recipe.ImageUrl;
             CostId = recipe.CostId;
             DifficultyId = recipe.DifficultyId;
             RecipeKindId = recipe.RecipeKindId;
@@ -183,7 +197,7 @@ namespace Cookbook.UI.ViewData.Recipe
             Ingredients.AddRange(ingredientsVD);
         }
 
-        public Recipe GetEntity()
+        public Recipe GetEntity(int personNumber)
         {
             var recipe = new Recipe();
 
@@ -192,6 +206,7 @@ namespace Cookbook.UI.ViewData.Recipe
             recipe.PreparationTime = PreparationTime;
             recipe.CookingTime = CookingTime;
             recipe.Description = Description;
+            recipe.ImageUrl = ImageUrl;
             recipe.CostId = CostId;
             recipe.DifficultyId = DifficultyId;
             recipe.RecipeKindId = RecipeKindId;
@@ -204,7 +219,7 @@ namespace Cookbook.UI.ViewData.Recipe
                 recipe.Instructions.Add(instruction.GetEntity());
 
             foreach (var ingredient in Ingredients)
-                recipe.Ingredients.Add(ingredient.GetEntity());
+                recipe.Ingredients.Add(ingredient.GetEntity(personNumber));
 
             return recipe;
         }

@@ -106,7 +106,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var ingredientKinds = new List<IngredientKind>();
             IngredientKind ingredientKind = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     ingredientKind = new IngredientKind();

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tools.UI.DataProvider;
 
 namespace Tools.UI.ViewModel
@@ -37,8 +39,12 @@ namespace Tools.UI.ViewModel
         {
             pageViewModel.SetViewModelSetter(this);
             pageViewModel.SetDataProviderManager(DataProviderManager);
+
             pageViewModel.Initialize();
             await pageViewModel.PopulateAsync();
+
+            if (CurrentViewModel != null)
+                CurrentViewModel.Dispose();
 
             CurrentViewModel = pageViewModel;
         }

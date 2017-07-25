@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Tools.Serializer.Json;
@@ -49,6 +50,7 @@ namespace Cookbook.Serializer.Recipe.Json
             for (int i = 0; i < recipes.Count; i++)
             {
                 jsonWriter.WriteStartObject();
+
                 WriteId(recipes[i], jsonWriter);
                 WriteName(recipes[i], jsonWriter);
                 WriteDescription(recipes[i], jsonWriter);
@@ -63,6 +65,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 WriteIngredients(recipes[i], jsonWriter);
                 WriteExternalUrl(recipes[i], jsonWriter);
                 WriteUserId(recipes[i], jsonWriter);
+                WriteImageUrl(recipes[i], jsonWriter);
 
                 jsonWriter.WriteEndObject();
             }
@@ -205,8 +208,19 @@ namespace Cookbook.Serializer.Recipe.Json
             {
                 jsonWriter.WritePropertyName(RecipeSerializerDescription.UserId.GetName(UsePropDescrShortName));
 
+                string value = null;
                 if (recipe.UserId.HasValue)
-                    jsonWriter.WriteValue(recipe.UserId.Value.ToString("N"));
+                    value = recipe.UserId.Value.ToString("N");
+                jsonWriter.WriteValue(value);
+            }
+        }
+
+        private void WriteImageUrl(Entity.Recipe.Recipe recipe, JsonWriter jsonWriter)
+        {
+            if (_fields.Contains(RecipeEntityDescription.ImageUrl.ToLower()))
+            {
+                jsonWriter.WritePropertyName(RecipeSerializerDescription.ImageUrl.GetName(UsePropDescrShortName));
+                jsonWriter.WriteValue(recipe.ImageUrl);
             }
         }
 
@@ -228,7 +242,7 @@ namespace Cookbook.Serializer.Recipe.Json
             var recipes = new List<Entity.Recipe.Recipe>();
             Entity.Recipe.Recipe recipe = null;
 
-            while (jsonReader.Read())
+            while (jsonReader.Read() && jsonReader.TokenType != JsonToken.EndArray)
             {
                 if (jsonReader.TokenType == JsonToken.StartObject)
                     recipe = new Entity.Recipe.Recipe();
@@ -250,6 +264,7 @@ namespace Cookbook.Serializer.Recipe.Json
                     isAlreadyRead = ReadIngredients(jsonReader, recipe, isAlreadyRead);
                     isAlreadyRead = ReadExternalUrl(jsonReader, recipe, isAlreadyRead);
                     isAlreadyRead = ReadUserId(jsonReader, recipe, isAlreadyRead);
+                    isAlreadyRead = ReadImageUrl(jsonReader, recipe, isAlreadyRead);
                 }
 
                 if (jsonReader.TokenType == JsonToken.EndObject)
@@ -329,7 +344,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (RecipeSerializerDescription.PreparationTime.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    recipe.PreparationTime = int.Parse(jsonReader.Value.ToString());
+                    recipe.PreparationTime = Convert.ToInt32(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -345,7 +360,7 @@ namespace Cookbook.Serializer.Recipe.Json
                 if (RecipeSerializerDescription.CookingTime.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
                 {
                     jsonReader.Read();
-                    recipe.CookingTime = int.Parse(jsonReader.Value.ToString());
+                    recipe.CookingTime = Convert.ToInt32(jsonReader.Value, CultureInfo.InvariantCulture);
 
                     return true;
                 }
@@ -484,6 +499,22 @@ namespace Cookbook.Serializer.Recipe.Json
                     jsonReader.Read();
                     if (jsonReader.Value != null)
                         recipe.UserId = new Guid(jsonReader.Value.ToString());
+
+                    return true;
+                }
+            }
+
+            return isAlreadyRead;
+        }
+
+        private bool ReadImageUrl(JsonReader jsonReader, Entity.Recipe.Recipe recipe, bool isAlreadyRead)
+        {
+            if (!isAlreadyRead)
+            {
+                if (RecipeSerializerDescription.ImageUrl.GetName(UsePropDescrShortName) == jsonReader.Value.ToString())
+                {
+                    jsonReader.Read();
+                    recipe.ImageUrl = (string)jsonReader.Value;
 
                     return true;
                 }
